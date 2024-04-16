@@ -1,0 +1,5 @@
+Playlist:
+https://www.youtube.com/playlist?list=PLvGkoe6DLycgL96c5C7xrqXvm7CurFHm_
+
+crear ejecutable:
+    $ pyinstaller --clean --onefile --windowed audio_yt.py
