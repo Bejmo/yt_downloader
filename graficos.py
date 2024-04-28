@@ -10,11 +10,11 @@ def convert_to_audio(input_file, output_file):
     ffmpeg_cmd = [
         "ffmpeg",
         "-i", input_file,
-        "-vn",
-        "-acodec", "libmp3lame",
-        "-ab", "192k",
-        "-ar", "44100",
-        "-y",
+        "-vn",                      # Eliminar vídeo
+        "-acodec", "libmp3lame",    # Seleccionasr codec
+        "-ab", "192k",              # Bit rate
+        "-ar", "44100",             # Sampling rate (Hz)
+        "-y",                       # sobreescribir archivos
         output_file
     ]
 
@@ -55,36 +55,58 @@ if not os.path.exists(directorio_metadata): # No existe "root": se crea.
 def descargar_audio_youtube(yt, destino, actualizar):
     video = yt.streams.filter(only_audio=True).first()
     out_file = video.download(output_path=destino)
-    # AÑADIR CONVESION DE AUDIO
-    # base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
-    # new_file = base + '.mp3'
-    # try: # Soluciona error de tener un nombre raro y no detectarlo con yt.title en "actualizar_playlist"
-    #     os.rename(out_file, new_file)
-    #     name_file = yt.title + '.mp3'
-    #     if (actualizar == 1):
-    #         texto_imprimir.insert(tk.END, "Actualizando. Añadiendo: ", name_file, "\n")
-    #     else:
-    #         texto_imprimir.insert(tk.END, "Descargando: ", str(name_file), "\n")
-    # except:
-    #     os.remove(out_file)
+    base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
+    new_file = base + '.mp3'
+
+    if (actualizar == 1):
+        texto_imprimir.insert(tk.END, "Actualizando. Añadiendo: {}\n".format(os.path.basename(new_file)))
+        # texto_imprimir.insert(tk.END, "Actualizando. Añadiendo: ", str(new_file), "\n")
+    else:
+        texto_imprimir.insert(tk.END, "Descargando: {}\n".format(os.path.basename(new_file)))
+        # texto_imprimir.insert(tk.END, "Descargando: ", str(new_file), "\n")
+
+    # Conversión a audio.
+    convert_to_audio(out_file, new_file)
+    os.remove(out_file)
+    
     texto_imprimir.insert(tk.END, "Descargado.\n")
 
 # Descarga la playlist de la url indicada.
 def descargar_playlist(playlist, destino):
+    counter = 0
     for yt in playlist.videos:
         descargar_audio_youtube(yt, destino, 0)
+        ++counter
 
-    texto_imprimir.insert(tk.END, "Descarga de la playlist completada.\n")
+    texto_imprimir.insert(tk.END, "Descarga de la playlist completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
 
 # Actualiza la playlist de la url indicada.
+# Va descargando canciones de la playlist hasta encontrar una que ya existe (o acaba la playlist).
+# Es útil cuando tienes la platlist ordenada con el filtro: fecha de inclusión más reciente.
 def actualizar_playlist(playlist, destino):
     archivos_en_directorio = os.listdir(destino)
     texto_imprimir.insert(tk.END, "Se está actualizando, espere unos instantes.\n")
+
+    counter = 0
     for yt in playlist.videos:
         name_file = yt.title + '.mp3'
-        if not (name_file in archivos_en_directorio):
+        if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga.
             descargar_audio_youtube(yt, destino, 1)
-    texto_imprimir.insert(tk.END, "Actualización completada.\n")
+            ++counter
+        else:
+            break
+    texto_imprimir.insert(tk.END, "Actualización completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
+
+
+# # Actualiza la playlist COMPLETAMENTE.
+# def actualizar_playlist(playlist, destino):
+#     archivos_en_directorio = os.listdir(destino)
+#     texto_imprimir.insert(tk.END, "Se está actualizando, espere unos instantes.\n")
+#     for yt in playlist.videos:
+#         name_file = yt.title + '.mp3'
+#         if not (name_file in archivos_en_directorio):
+#             descargar_audio_youtube(yt, destino, 1)
+#     texto_imprimir.insert(tk.END, "Actualización completada.\n")
 
 # ------------------------------------------------ #
 
@@ -188,8 +210,8 @@ descargar_video.grid(row=3, column=0, sticky="ew")
 descargar_playlist = tk.Button(ventana, text="Descargar Playlist", command=descargar_playlist_button, width=10, height=2)
 descargar_playlist.grid(row=3, column=1, sticky="ew")
 
-actualizar_playlist = tk.Button(ventana, text="Actualizar Playlist", command=actualizar_playlist_button, width=10, height=2)
-actualizar_playlist.grid(row=4, column=0, sticky="ew")
+actualizar_playlist_button = tk.Button(ventana, text="Actualizar Playlist", command=actualizar_playlist_button, width=10, height=2)
+actualizar_playlist_button.grid(row=4, column=0, sticky="ew")
 
 modificar_root = tk.Button(ventana, text="Modificar Root Path", command=modificar_root_button, width=10, height=2)
 modificar_root.grid(row=4, column=1, sticky="ew")
