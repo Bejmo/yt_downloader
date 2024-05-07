@@ -33,3 +33,5 @@ base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
 new_file = base + '.mp3'
 
 # Conversión a audio.
+convert_to_audio(out_file, new_file)
+os.remove(out_file)
