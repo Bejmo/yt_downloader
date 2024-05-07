@@ -185,7 +185,6 @@ def borrar_contenido_salida_button():
 ventana = tk.Tk()
 ventana.title("YouTube MP3")
 # Cambiar el icono de la ventana
-ventana.iconbitmap("yt.ico")
 
 # Crear barra de entrada del enlace
 entrada_enlace = tk.Entry(ventana, width=100)  # Ajusta el tamaño según lo necesites
@@ -207,14 +206,14 @@ boton_borrar.grid(row=2, column=1, sticky="ew")
 descargar_video = tk.Button(ventana, text="Descargar Vídeo", command=descargar_video_button, width=10, height=2)
 descargar_video.grid(row=3, column=0, sticky="ew")
 
-descargar_playlist = tk.Button(ventana, text="Descargar Playlist", command=descargar_playlist_button, width=10, height=2)
-descargar_playlist.grid(row=3, column=1, sticky="ew")
+descargar_playlist_button = tk.Button(ventana, text="Descargar Playlist", command=descargar_playlist_button, width=10, height=2)
+descargar_playlist_button.grid(row=3, column=1, sticky="ew")
 
 actualizar_playlist_button = tk.Button(ventana, text="Actualizar Playlist", command=actualizar_playlist_button, width=10, height=2)
 actualizar_playlist_button.grid(row=4, column=0, sticky="ew")
 
-modificar_root = tk.Button(ventana, text="Modificar Root Path", command=modificar_root_button, width=10, height=2)
-modificar_root.grid(row=4, column=1, sticky="ew")
+modificar_root_button = tk.Button(ventana, text="Modificar Root Path", command=modificar_root_button, width=10, height=2)
+modificar_root_button.grid(row=4, column=1, sticky="ew")
 
 # Crear zona de texto para imprimir
 texto_imprimir = tk.Text(ventana, height=20, width=100)
