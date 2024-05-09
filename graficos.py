@@ -76,7 +76,7 @@ def descargar_playlist(playlist, destino):
     counter = 0
     for yt in playlist.videos:
         descargar_audio_youtube(yt, destino, 0)
-        ++counter
+        counter += 1
 
     texto_imprimir.insert(tk.END, "Descarga de la playlist completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
 
@@ -92,7 +92,7 @@ def actualizar_playlist(playlist, destino):
         name_file = yt.title + '.mp3'
         if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga.
             descargar_audio_youtube(yt, destino, 1)
-            ++counter
+            counter += 1
         else:
             break
     texto_imprimir.insert(tk.END, "Actualización completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
