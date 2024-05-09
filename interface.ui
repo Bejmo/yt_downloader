@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
-    <height>550</height>
+    <width>571</width>
+    <height>674</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,42 +17,42 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QLabel" name="URL">
+      <widget class="QLabel" name="url_tag">
        <property name="text">
         <string>URL YouTube</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="URL_text"/>
+      <widget class="QLineEdit" name="url_line"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="carpeta_descarga">
+      <widget class="QLabel" name="carpeta_descarga_tag">
        <property name="text">
         <string>Carpeta Descarga</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="carpeta"/>
+      <widget class="QLineEdit" name="carpeta_line"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="Enviar">
+      <widget class="QPushButton" name="enviar_button">
        <property name="text">
         <string>Enviar</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="Borrar">
+      <widget class="QPushButton" name="borrar_button">
        <property name="text">
         <string>Borrar</string>
        </property>
@@ -78,21 +78,21 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QRadioButton" name="DescargarVideo">
+        <widget class="QRadioButton" name="descargar_video_radio_button">
          <property name="text">
           <string>Descargar Vídeo</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="DescargarPlaylist">
+        <widget class="QRadioButton" name="descargar_playlist_radio_button">
          <property name="text">
           <string>Descargar Playlist</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="ActualizarPlaylist">
+        <widget class="QRadioButton" name="actualizar_playlist_radio_button">
          <property name="text">
           <string>Actualizar Playlist</string>
          </property>
@@ -129,7 +129,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QPushButton" name="SetDefaultRoot">
+    <widget class="QPushButton" name="set_default_root">
      <property name="text">
       <string>Set Default Root</string>
      </property>
@@ -138,10 +138,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="cambiar_root_line"/>
      </item>
      <item>
-      <widget class="QPushButton" name="Cambiar_root">
+      <widget class="QPushButton" name="cambiar_root_button">
        <property name="text">
         <string>Cambiar Root</string>
        </property>
@@ -166,7 +166,7 @@
     <widget class="QTextBrowser" name="terminal"/>
    </item>
    <item>
-    <widget class="QPushButton" name="Clear">
+    <widget class="QPushButton" name="clear_button">
      <property name="text">
       <string>Clear</string>
      </property>
@@ -177,7 +177,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>Clear</sender>
+   <sender>clear_button</sender>
    <signal>pressed()</signal>
    <receiver>terminal</receiver>
    <slot>clear()</slot>

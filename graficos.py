@@ -1,4 +1,8 @@
+# Interfaz
 import tkinter as tk
+from PyQt5 import QtWidgets
+from PyQt5.uic import loadUi
+
 from pytube import YouTube
 from pytube import Playlist
 import pandas as pd
@@ -178,49 +182,65 @@ def borrar_contenido_salida_button():
     texto_imprimir.delete(1.0, tk.END)
 
 # ------------------------------------------------ #
+# INTERFAZ IMPORTADA (PRUEBAS)
 
-# BOTONES
+# Creamos una aplicación de PyQt5
+app = QApplication([])
 
-# Crear ventana principal
-ventana = tk.Tk()
-ventana.title("YouTube MP3")
-# Cambiar el icono de la ventana
+# Cargamos la interfaz desde el archivo .ui
+ui = loadUi("interface.ui")
 
-# Crear barra de entrada del enlace
-entrada_enlace = tk.Entry(ventana, width=100)  # Ajusta el tamaño según lo necesites
-entrada_enlace.grid(row=0, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
+# Mostramos la interfaz
+ui.show()
 
-# Crear barra de entrada del directorio
-entrada_directorio = tk.Entry(ventana, width=100)
-entrada_directorio.grid(row=1, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
+# Ejecutamos la aplicación
+app.exec_()
+
+# ------------------------------------------------ #
 
 
-# Crear botones
-enviar = tk.Button(ventana, text="Enviar", command=enviar, width=10, height=2)
-enviar.grid(row=2, column=0, sticky="ew")  # Usamos sticky="ew" para que el botón se expanda horizontalmente
+# # BOTONES
 
-# Botón para borrar contenido de la barra de entrada
-boton_borrar = tk.Button(ventana, text="Borrar", command=borrar_contenido_button, width=10, height=2)
-boton_borrar.grid(row=2, column=1, sticky="ew")
+# # Crear ventana principal
+# ventana = tk.Tk()
+# ventana.title("YouTube MP3")
+# # Cambiar el icono de la ventana
 
-descargar_video = tk.Button(ventana, text="Descargar Vídeo", command=descargar_video_button, width=10, height=2)
-descargar_video.grid(row=3, column=0, sticky="ew")
+# # Crear barra de entrada del enlace
+# entrada_enlace = tk.Entry(ventana, width=100)  # Ajusta el tamaño según lo necesites
+# entrada_enlace.grid(row=0, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
 
-descargar_playlist_button = tk.Button(ventana, text="Descargar Playlist", command=descargar_playlist_button, width=10, height=2)
-descargar_playlist_button.grid(row=3, column=1, sticky="ew")
+# # Crear barra de entrada del directorio
+# entrada_directorio = tk.Entry(ventana, width=100)
+# entrada_directorio.grid(row=1, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
 
-actualizar_playlist_button = tk.Button(ventana, text="Actualizar Playlist", command=actualizar_playlist_button, width=10, height=2)
-actualizar_playlist_button.grid(row=4, column=0, sticky="ew")
 
-modificar_root_button = tk.Button(ventana, text="Modificar Root Path", command=modificar_root_button, width=10, height=2)
-modificar_root_button.grid(row=4, column=1, sticky="ew")
+# # Crear botones
+# enviar = tk.Button(ventana, text="Enviar", command=enviar, width=10, height=2)
+# enviar.grid(row=2, column=0, sticky="ew")  # Usamos sticky="ew" para que el botón se expanda horizontalmente
 
-# Crear zona de texto para imprimir
-texto_imprimir = tk.Text(ventana, height=20, width=100)
-texto_imprimir.grid(row=5, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
+# # Botón para borrar contenido de la barra de entrada
+# boton_borrar = tk.Button(ventana, text="Borrar", command=borrar_contenido_button, width=10, height=2)
+# boton_borrar.grid(row=2, column=1, sticky="ew")
 
-# Botón para limpiar la salida.
-boton_clear_salida = tk.Button(ventana, text="Clear", command=borrar_contenido_salida_button, width=10, height=2)
-boton_clear_salida.grid(row=6, column=0, columnspan=2, sticky="ew")
+# descargar_video = tk.Button(ventana, text="Descargar Vídeo", command=descargar_video_button, width=10, height=2)
+# descargar_video.grid(row=3, column=0, sticky="ew")
 
-ventana.mainloop()
+# descargar_playlist_button = tk.Button(ventana, text="Descargar Playlist", command=descargar_playlist_button, width=10, height=2)
+# descargar_playlist_button.grid(row=3, column=1, sticky="ew")
+
+# actualizar_playlist_button = tk.Button(ventana, text="Actualizar Playlist", command=actualizar_playlist_button, width=10, height=2)
+# actualizar_playlist_button.grid(row=4, column=0, sticky="ew")
+
+# modificar_root_button = tk.Button(ventana, text="Modificar Root Path", command=modificar_root_button, width=10, height=2)
+# modificar_root_button.grid(row=4, column=1, sticky="ew")
+
+# # Crear zona de texto para imprimir
+# texto_imprimir = tk.Text(ventana, height=20, width=100)
+# texto_imprimir.grid(row=5, column=0, columnspan=2)  # Usamos columnspan para que ocupe dos columnas
+
+# # Botón para limpiar la salida.
+# boton_clear_salida = tk.Button(ventana, text="Clear", command=borrar_contenido_salida_button, width=10, height=2)
+# boton_clear_salida.grid(row=6, column=0, columnspan=2, sticky="ew")
+
+# ventana.mainloop()
