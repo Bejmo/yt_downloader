@@ -3,6 +3,7 @@ import tkinter as tk
 from PyQt5 import QtWidgets
 from PyQt5.uic import loadUi
 
+# Otras funcionalidades
 from pytube import YouTube
 from pytube import Playlist
 import pandas as pd
