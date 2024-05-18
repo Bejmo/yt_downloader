@@ -10,6 +10,10 @@ import pandas as pd
 import os
 import subprocess
 
+
+# - FUNCIONES - #
+
+
 # CONVERTIR AUDIO
 def convert_to_audio(input_file, output_file):
     ffmpeg_cmd = [
