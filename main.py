@@ -7,12 +7,8 @@ import sys
 # Otras funcionalidades
 from pytube import YouTube
 from pytube import Playlist
-import pandas as pd
 import os
-import subprocess
 from funciones_yt import *
-
-# - MAIN - #
 
 class MyApp(QWidget):
     # Estado del programa.
@@ -25,17 +21,17 @@ class MyApp(QWidget):
     directorio_actual = os.path.dirname(__file__)
     directorio_metadata = os.path.join(directorio_actual, 'metadata')
     ruta_archivo = os.path.join(directorio_metadata, "ruta.txt")
-    directorio_descargas = "" # Directorio donde se descargan los archivos.
+    root = "" # Directorio donde se descargan los archivos.
 
-    # Asigna el valor default al archivo que contiene el directorio de descargas.
+    # Asigna el valor default al archivo que contiene el root.
     # Se encapsula en una función para poder usarse más adelante.
-    def default_descargas(self):
+    def default_root(self):
         # Escribir el default path de descargas en el archivo.
         with open(self.ruta_archivo, 'w') as archivo:
-            self.directorio_descargas = os.path.join(self.directorio_actual, 'downloads')
-            if not os.path.exists(self.directorio_descargas): # Si no existe /downloads, lo crea.
-                os.makedirs(self.directorio_descargas)
-            archivo.write(self.directorio_descargas)
+            self.root = os.path.join(self.directorio_actual, 'downloads')
+            if not os.path.exists(self.root): # Si no existe /downloads, lo crea.
+                os.makedirs(self.root)
+            archivo.write(self.root)
 
     def __init__(self):
         super().__init__()
@@ -50,7 +46,7 @@ class MyApp(QWidget):
         self.setWindowIcon(QIcon(icon_path))
 
         # Asignar funciones a los botones
-        self.ui.enviar_button.pressed.connect(self.enviar)
+        self.ui.descargar_button.pressed.connect(self.descargar)
         self.ui.descargar_video_radio_button.toggled.connect(self.descargar_video_button)
         self.ui.descargar_playlist_radio_button.toggled.connect(self.descargar_playlist_button)
         self.ui.actualizar_playlist_radio_button.toggled.connect(self.actualizar_playlist_button)
@@ -64,11 +60,11 @@ class MyApp(QWidget):
         if not os.path.exists(self.directorio_metadata):
             os.makedirs(self.directorio_metadata)
             
-            self.default_descargas()
-        # Si existe, carga el directorio de descargas de "metadata".
+            self.default_root()
+        # Si existe, carga el root que está en "metadata".
         else:
             with open(self.ruta_archivo, 'r') as archivo:
-                directorio_descargas = archivo.read()
+                root = archivo.read()
 
 
     # - Funciones de Botones - #
@@ -99,9 +95,9 @@ class MyApp(QWidget):
 
 
     def set_default_root(self):
-        self.default_descargas()
+        self.default_root()
 
-        self.ui.terminal.append("Se ha modificado el root al default:\n" + self.directorio_descargas)
+        self.ui.terminal.append("Se ha modificado el root al default:\n" + self.root + "\n")
 
     def borrar_contenido_button(self):
         self.ui.url_line.clear()
@@ -112,19 +108,24 @@ class MyApp(QWidget):
 
     def imprimir_root_actual(self):
         with open(self.ruta_archivo, 'r') as archivo:
-            directorio_descargas = archivo.read()
-        self.ui.terminal.append("Root actual: " + directorio_descargas + "\n")
+            root = archivo.read()
+        self.ui.terminal.append("Root actual:\n" + root + "\n")
 
-    def enviar(self):
+    def descargar(self):
         url = self.ui.url_line.text()
         directorio = self.ui.carpeta_line.text()
-        directorio = os.path.join(self.directorio_descargas, directorio)
+        # Si no hay directorio indicado, se guarda en el root.
+        if (directorio == ""): directorio = self.root
+        else: directorio = os.path.join(self.root, directorio)
 
-        # Ver el estado en el que se encuentra y actuar en consecuencia.
-        if (self.estado == 0):
+        # Solo borrar el contenido del botón si hay alguna acción indicada.
+        if (self.estado != 0): self.borrar_contenido_button()
+        else: # estado == 0
             self.ui.terminal.append("No hay ningúna opción pulsada.\n")
             return
-        elif (self.estado == 1):
+
+        # Ver el estado en el que se encuentra y actuar en consecuencia.
+        if (self.estado == 1):
             yt = YouTube(url)
             descargar_audio_youtube(yt, directorio, 0, self)
         elif (self.estado == 2):
@@ -134,7 +135,8 @@ class MyApp(QWidget):
             p = Playlist(url)
             actualizar_playlist(p, directorio, self)
 
-        self.borrar_contenido_button()
+
+# - MAIN - #
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

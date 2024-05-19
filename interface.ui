@@ -13,48 +13,56 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <widget class="QLabel" name="url_tag">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="url_tag">
+           <property name="text">
+            <string>URL YouTube</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="url_line"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="carpeta_descarga_tag">
+           <property name="text">
+            <string>Carpeta Descarga</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="carpeta_line"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="borrar_button">
        <property name="text">
-        <string>URL YouTube</string>
+        <string>Borrar</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="url_line"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QLabel" name="carpeta_descarga_tag">
-       <property name="text">
-        <string>Carpeta Descarga</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="carpeta_line"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="enviar_button">
+      <widget class="QPushButton" name="descargar_button">
        <property name="text">
-        <string>Enviar</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="borrar_button">
-       <property name="text">
-        <string>Borrar</string>
+        <string>Descargar</string>
        </property>
       </widget>
      </item>
@@ -194,12 +202,44 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>293</x>
-     <y>440</y>
+     <x>297</x>
+     <y>669</y>
     </hint>
     <hint type="destinationlabel">
-     <x>285</x>
-     <y>360</y>
+     <x>289</x>
+     <y>639</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>borrar_button</sender>
+   <signal>pressed()</signal>
+   <receiver>url_line</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>18</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>borrar_button</sender>
+   <signal>pressed()</signal>
+   <receiver>carpeta_line</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>524</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>48</y>
     </hint>
    </hints>
   </connection>

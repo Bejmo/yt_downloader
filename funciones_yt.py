@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QApplication
 import os
 import subprocess
 
@@ -26,14 +27,14 @@ def descargar_audio_youtube(yt, destino, actualizar, window):
     video = yt.streams.filter(only_audio=True).first()
     out_file = video.download(output_path=destino)
     base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
-    new_file = base + '.mp3'
+    new_file = base + ".mp3"
 
     if (actualizar == 1):
         window.ui.terminal.append("Actualizando. Añadiendo: " + os.path.basename(new_file))
-        # texto_imprimir.insert(tk.END, "Actualizando. Añadiendo: ", str(new_file), "\n")
     else:
         window.ui.terminal.append("Descargando: " + os.path.basename(new_file))
-        # texto_imprimir.insert(tk.END, "Descargando: ", str(new_file), "\n")
+
+    QApplication.processEvents()  # Allow UI to update
 
     # Conversión a audio.
     convert_to_audio(out_file, new_file)
@@ -45,7 +46,7 @@ def descargar_audio_youtube(yt, destino, actualizar, window):
 def descargar_playlist(playlist, destino, window):
     counter = 0
     for yt in playlist.videos:
-        descargar_audio_youtube(yt, destino, 0)
+        descargar_audio_youtube(yt, destino, 0, window)
         counter += 1
 
     window.ui.terminal.append("Descarga de la playlist completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
@@ -59,9 +60,9 @@ def actualizar_playlist(playlist, destino, window):
 
     counter = 0
     for yt in playlist.videos:
-        name_file = yt.title + '.mp3'
+        name_file = yt.title + ".mp3"
         if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga.
-            descargar_audio_youtube(yt, destino, 1)
+            descargar_audio_youtube(yt, destino, 1, window)
             counter += 1
         else:
             break
@@ -74,5 +75,5 @@ def actualizar_playlist(playlist, destino, window):
 #     for yt in playlist.videos:
 #         name_file = yt.title + '.mp3'
 #         if not (name_file in archivos_en_directorio):
-#             descargar_audio_youtube(yt, destino, 1)
+#             descargar_audio_youtube(yt, destino, 1, window)
 #     texto_imprimir.insert(tk.END, "Actualización completada.\n")
