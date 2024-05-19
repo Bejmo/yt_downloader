@@ -1,0 +1,8 @@
+Mejoras:
+- Hacer que se vea el estado del programa (ver que se está descargando)
+- Añadir función de "imprimir" en "funciones_yt" -> imprimir en terminal o en la aplicación dependiendo si se ejecuta directamente o se importa en otro archivo.py
+    - Código beta:
+        def imprimir(text):
+            if (__name__ == "__main__"):
+                print(text)
+            else:

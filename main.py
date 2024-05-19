@@ -10,124 +10,7 @@ from pytube import Playlist
 import pandas as pd
 import os
 import subprocess
-
-# ------------------------------------------------ #
-
-# - INICIALIZACIÓN - #
-
-# Crear directorio de "metadata" donde se encuentra el directorio "root".
-directorio_actual = os.path.dirname(__file__)
-directorio_metadata = os.path.join(directorio_actual, 'metadata')
-ruta_archivo = os.path.join(directorio_metadata, "ruta.txt")
-directorio_descargas = "" # Directorio donde se descargan los archivos.
-# root = "" # Directorio que contiene la ruta donde se guardarán las descargas.
-
-# Asigna el valor default al archivo que contiene el directorio de descargas.
-def default_root():
-    global ruta_archivo, directorio_descargas, directorio_actual
-    # Escribir el default path de descargas en el archivo.
-    with open(ruta_archivo, 'w') as archivo:
-        directorio_descargas = os.path.join(directorio_actual, 'downloads')
-        if not os.path.exists(directorio_descargas): # Si no existe /downloads, lo crea.
-            os.makedirs(directorio_descargas)
-        archivo.write(directorio_descargas)
-
-# Crear directorio de "root"
-if not os.path.exists(directorio_metadata): # Si no existe carpeta de metadata con el root se crea
-    os.makedirs(directorio_metadata)
-    root = os.path.join(directorio_actual, 'downloads')
-    
-    default_root()
-else:
-    # Cargar directorio de root (por si se ha modificado)
-    with open(ruta_archivo, 'r') as archivo:
-        root = archivo.read()
-
-# ------------------------------------------------ #
-
-# - FUNCIONES - #
-
-def convert_to_audio(input_file, output_file):
-    ffmpeg_cmd = [
-        "ffmpeg",
-        "-i", input_file,
-        "-vn",                      # Eliminar vídeo
-        "-acodec", "libmp3lame",    # Seleccionasr codec
-        "-ab", "192k",              # Bit rate
-        "-ar", "44100",             # Sampling rate (Hz)
-        "-y",                       # sobreescribir archivos
-        output_file
-    ]
-
-    try:
-        subprocess.run(ffmpeg_cmd, check=True)
-        print("Success.")
-    except subprocess.CalledProcessError as e:
-        print("Conversion failed.")
-
-# ------------------------------------------------ #
-
-# FUNCIONES AUDIO_YT
-        
-# Descarga el audio de un vídeo de YouTube a través de la URL.
-# actualizar indica si es una actualización de playlist (1) o no (0)
-def descargar_audio_youtube(yt, destino, actualizar):
-    video = yt.streams.filter(only_audio=True).first()
-    out_file = video.download(output_path=destino)
-    base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
-    new_file = base + '.mp3'
-
-    if (actualizar == 1):
-        window.ui.terminal.append("Actualizando. Añadiendo: " + os.path.basename(new_file))
-        # texto_imprimir.insert(tk.END, "Actualizando. Añadiendo: ", str(new_file), "\n")
-    else:
-        window.ui.terminal.append("Descargando: " + os.path.basename(new_file))
-        # texto_imprimir.insert(tk.END, "Descargando: ", str(new_file), "\n")
-
-    # Conversión a audio.
-    convert_to_audio(out_file, new_file)
-    os.remove(out_file)
-    
-    window.ui.terminal.append("Descargado.\n")
-
-# Descarga la playlist de la url indicada.
-def descargar_playlist(playlist, destino):
-    counter = 0
-    for yt in playlist.videos:
-        descargar_audio_youtube(yt, destino, 0)
-        counter += 1
-
-    window.ui.terminal.append("Descarga de la playlist completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
-
-# Actualiza la playlist de la url indicada.
-# Va descargando canciones de la playlist hasta encontrar una que ya existe (o acaba la playlist).
-# Es útil cuando tienes la platlist ordenada con el filtro: fecha de inclusión más reciente.
-def actualizar_playlist(playlist, destino):
-    archivos_en_directorio = os.listdir(destino)
-    window.ui.terminal.append("Se está actualizando, espere unos instantes.\n")
-
-    counter = 0
-    for yt in playlist.videos:
-        name_file = yt.title + '.mp3'
-        if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga.
-            descargar_audio_youtube(yt, destino, 1)
-            counter += 1
-        else:
-            break
-    window.ui.terminal.append("Actualización completada.\n" + "Descargados: " + str(counter) + " archivos.\n")
-
-
-# # Actualiza la playlist COMPLETAMENTE.
-# def actualizar_playlist(playlist, destino):
-#     archivos_en_directorio = os.listdir(destino)
-#     texto_imprimir.insert(tk.END, "Se está actualizando, espere unos instantes.\n")
-#     for yt in playlist.videos:
-#         name_file = yt.title + '.mp3'
-#         if not (name_file in archivos_en_directorio):
-#             descargar_audio_youtube(yt, destino, 1)
-#     texto_imprimir.insert(tk.END, "Actualización completada.\n")
-
-# ------------------------------------------------ #
+from funciones_yt import *
 
 # - MAIN - #
 
@@ -137,8 +20,22 @@ class MyApp(QWidget):
     # estado == 1 -> descargar vídeo
     # estado == 2 -> descargar playlist
     # estado == 3 -> modificar playlist
-    # estado == 4 -> modificar root path
     estado = 0
+
+    directorio_actual = os.path.dirname(__file__)
+    directorio_metadata = os.path.join(directorio_actual, 'metadata')
+    ruta_archivo = os.path.join(directorio_metadata, "ruta.txt")
+    directorio_descargas = "" # Directorio donde se descargan los archivos.
+
+    # Asigna el valor default al archivo que contiene el directorio de descargas.
+    # Se encapsula en una función para poder usarse más adelante.
+    def default_descargas(self):
+        # Escribir el default path de descargas en el archivo.
+        with open(self.ruta_archivo, 'w') as archivo:
+            self.directorio_descargas = os.path.join(self.directorio_actual, 'downloads')
+            if not os.path.exists(self.directorio_descargas): # Si no existe /downloads, lo crea.
+                os.makedirs(self.directorio_descargas)
+            archivo.write(self.directorio_descargas)
 
     def __init__(self):
         super().__init__()
@@ -161,6 +58,18 @@ class MyApp(QWidget):
         self.ui.cambiar_root_button.pressed.connect(self.modificar_root_button)
         self.ui.imprimir_root_actual.pressed.connect(self.imprimir_root_actual)
 
+        # - Inicialización programa - #
+        
+        # Crear directorio de metadata si no existe.
+        if not os.path.exists(self.directorio_metadata):
+            os.makedirs(self.directorio_metadata)
+            
+            self.default_descargas()
+        # Si existe, carga el directorio de descargas de "metadata".
+        else:
+            with open(self.ruta_archivo, 'r') as archivo:
+                directorio_descargas = archivo.read()
+
 
     # - Funciones de Botones - #
 
@@ -177,19 +86,22 @@ class MyApp(QWidget):
         # self.ui.terminal.append("Actualizar playlist.\n")
 
     def modificar_root_button(self):
-        global ruta_archivo
-
         url = self.ui.cambiar_root_line.text()
-        with open(ruta_archivo, 'w') as archivo:
-                archivo.write(url) # Se guarda la entrada de la url.
-                self.ui.terminal.append("Root modificado.\n")
+        with open(self.ruta_archivo, 'w') as archivo:
+                # Si la entrada no es vacía.
+                if (url != ""):
+                    archivo.write(url) # Se guarda la entrada de la url.
+                    self.ui.terminal.append("Root modificado.\n")
+                    self.ui.cambiar_root_line.clear()
+                # Si la entrada es vacía.
+                else:
+                    self.ui.terminal.append("No se ha podido modificar el root.\n")
 
-        self.ui.cambiar_root_line.clear()
 
     def set_default_root(self):
-        default_root()
+        self.default_descargas()
 
-        self.ui.terminal.append("Se ha modificado el root al default:\ncarpeta_actual/downloads")
+        self.ui.terminal.append("Se ha modificado el root al default:\n" + self.directorio_descargas)
 
     def borrar_contenido_button(self):
         self.ui.url_line.clear()
@@ -199,15 +111,14 @@ class MyApp(QWidget):
         self.ui.terminal.clear()
 
     def imprimir_root_actual(self):
-        global root, ruta_archivo
-        with open(ruta_archivo, 'r') as archivo:
-            root = archivo.read()
-        self.ui.terminal.append("Root actual: " + root + "\n")
+        with open(self.ruta_archivo, 'r') as archivo:
+            directorio_descargas = archivo.read()
+        self.ui.terminal.append("Root actual: " + directorio_descargas + "\n")
 
     def enviar(self):
         url = self.ui.url_line.text()
         directorio = self.ui.carpeta_line.text()
-        directorio = os.path.join(root, directorio)
+        directorio = os.path.join(self.directorio_descargas, directorio)
 
         # Ver el estado en el que se encuentra y actuar en consecuencia.
         if (self.estado == 0):
@@ -215,13 +126,13 @@ class MyApp(QWidget):
             return
         elif (self.estado == 1):
             yt = YouTube(url)
-            descargar_audio_youtube(yt, directorio, 0)
+            descargar_audio_youtube(yt, directorio, 0, self)
         elif (self.estado == 2):
             p = Playlist(url)
-            descargar_playlist(p, directorio)
+            descargar_playlist(p, directorio, self)
         elif (self.estado == 3):
             p = Playlist(url)
-            actualizar_playlist(p, directorio)
+            actualizar_playlist(p, directorio, self)
 
         self.borrar_contenido_button()
 
