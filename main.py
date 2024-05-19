@@ -18,27 +18,30 @@ import subprocess
 # Crear directorio de "metadata" donde se encuentra el directorio "root".
 directorio_actual = os.path.dirname(__file__)
 directorio_metadata = os.path.join(directorio_actual, 'metadata')
-directorio_descargas = ""
-nombre_archivo = "ruta.txt"
-ruta_archivo = os.path.join(directorio_metadata, nombre_archivo)
-root = "" # Directorio que contiene la ruta donde se guardarán las descargas.
+ruta_archivo = os.path.join(directorio_metadata, "ruta.txt")
+directorio_descargas = "" # Directorio donde se descargan los archivos.
+# root = "" # Directorio que contiene la ruta donde se guardarán las descargas.
 
-# Asigna el valor default al archivo que contiene el directorio "root"
+# Asigna el valor default al archivo que contiene el directorio de descargas.
 def default_root():
-    global ruta_archivo, directorio_descargas, directorio_actual, root
-    # Escribir el default path en el archivo
+    global ruta_archivo, directorio_descargas, directorio_actual
+    # Escribir el default path de descargas en el archivo.
     with open(ruta_archivo, 'w') as archivo:
         directorio_descargas = os.path.join(directorio_actual, 'downloads')
-        if not os.path.exists(directorio_descargas):
+        if not os.path.exists(directorio_descargas): # Si no existe /downloads, lo crea.
             os.makedirs(directorio_descargas)
         archivo.write(directorio_descargas)
 
 # Crear directorio de "root"
-if not os.path.exists(directorio_metadata): # No existe "root": se crea.
+if not os.path.exists(directorio_metadata): # Si no existe carpeta de metadata con el root se crea
     os.makedirs(directorio_metadata)
     root = os.path.join(directorio_actual, 'downloads')
     
     default_root()
+else:
+    # Cargar directorio de root (por si se ha modificado)
+    with open(ruta_archivo, 'r') as archivo:
+        root = archivo.read()
 
 # ------------------------------------------------ #
 
@@ -156,6 +159,7 @@ class MyApp(QWidget):
         self.ui.actualizar_playlist_radio_button.toggled.connect(self.actualizar_playlist_button)
         self.ui.set_default_root.pressed.connect(self.set_default_root)
         self.ui.cambiar_root_button.pressed.connect(self.modificar_root_button)
+        self.ui.imprimir_root_actual.pressed.connect(self.imprimir_root_actual)
 
 
     # - Funciones de Botones - #
@@ -184,6 +188,7 @@ class MyApp(QWidget):
 
     def set_default_root(self):
         default_root()
+
         self.ui.terminal.append("Se ha modificado el root al default:\ncarpeta_actual/downloads")
 
     def borrar_contenido_button(self):
@@ -193,11 +198,13 @@ class MyApp(QWidget):
     def borrar_contenido_salida_button(self):
         self.ui.terminal.clear()
 
-    def enviar(self):
+    def imprimir_root_actual(self):
         global root, ruta_archivo
-        # Cargar directorio de root (por si se ha modificado)
         with open(ruta_archivo, 'r') as archivo:
             root = archivo.read()
+        self.ui.terminal.append("Root actual: " + root + "\n")
+
+    def enviar(self):
         url = self.ui.url_line.text()
         directorio = self.ui.carpeta_line.text()
         directorio = os.path.join(root, directorio)

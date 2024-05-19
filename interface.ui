@@ -129,11 +129,22 @@
     </spacer>
    </item>
    <item>
-    <widget class="QPushButton" name="set_default_root">
-     <property name="text">
-      <string>Set Default Root</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QPushButton" name="set_default_root">
+       <property name="text">
+        <string>Set Default Root</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="imprimir_root_actual">
+       <property name="text">
+        <string>Imprimir Root Actual</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
