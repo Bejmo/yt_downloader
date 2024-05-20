@@ -37,7 +37,7 @@ class MyApp(QWidget):
         super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.setWindowTitle("YT MP3") # Cambiar título ventana
+        self.setWindowTitle("YT MP3") # Cambiar título ventana.
         self.resize(800, 500)
 
         # Icono de aplicación
