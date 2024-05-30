@@ -32,6 +32,10 @@ class MyApp(QWidget):
             if not os.path.exists(self.root): # Si no existe /downloads, lo crea.
                 os.makedirs(self.root)
             archivo.write(self.root)
+    
+    def leer_root(self):
+        with open(self.ruta_archivo, 'r') as archivo:
+            self.root = archivo.read()
 
     def __init__(self):
         super().__init__()
@@ -64,9 +68,7 @@ class MyApp(QWidget):
             self.default_root()
         # Si existe, carga el root que está en "metadata".
         else:
-            with open(self.ruta_archivo, 'r') as archivo:
-                root = archivo.read()
-
+            self.leer_root()
 
     # - Funciones de Botones - #
 
@@ -86,7 +88,7 @@ class MyApp(QWidget):
         url = self.ui.cambiar_root_line.text()
         with open(self.ruta_archivo, 'w') as archivo:
                 # Si la entrada no es vacía.
-                if (url != ""):
+                if (url):
                     archivo.write(url) # Se guarda la entrada de la url.
                     self.ui.terminal.append("Root modificado.\n")
                     self.ui.cambiar_root_line.clear()
@@ -94,12 +96,14 @@ class MyApp(QWidget):
                 else:
                     self.ui.terminal.append("No se ha podido modificar el root.\n")
 
+        self.leer_root()
+
 
     def set_default_root(self):
         self.default_root()
 
         self.ui.terminal.append("Se ha modificado el root al default:\n" + self.root + "\n")
-
+    
     def borrar_contenido_button(self):
         self.ui.url_line.clear()
         self.ui.carpeta_line.clear()
@@ -108,9 +112,7 @@ class MyApp(QWidget):
         self.ui.terminal.clear()
 
     def imprimir_root_actual(self):
-        with open(self.ruta_archivo, 'r') as archivo:
-            root = archivo.read()
-        self.ui.terminal.append("Root actual:\n" + root + "\n")
+        self.ui.terminal.append("Root actual:\n" + self.root + "\n")
 
     def imprimir_usage(self):
         self.ui.terminal.append(

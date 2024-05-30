@@ -1,6 +1,22 @@
 from PyQt5.QtWidgets import QApplication
 import os
+import re
 import subprocess
+
+# Limpiar el nombre del archivo (NO USAR CON EL PATH).
+def clean_filename(filename):
+    # Chars no permitidos por los archivos de Windows.
+    caracteres_a_eliminar = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
+    for caracter in caracteres_a_eliminar:
+        filename = filename.replace(caracter, "")
+
+    # Eliminar "(visualizer)" y similares
+    filename = filename.replace("(Vizualizer)", "")
+    filename = filename.replace("(vizualizer)", "")
+    filename = filename.replace("Vizualizer", "")
+    filename = filename.replace("vizualizer", "")
+    
+    return filename
 
 # Convierte a audio un vídeo.
 def convert_to_audio(input_file, output_file):
@@ -28,17 +44,25 @@ def descargar_audio_youtube(yt, destino, actualizar, window):
     out_file = video.download(output_path=destino)
     base, ext = os.path.splitext(out_file) # Separa la extensión del nombre
     new_file = base + ".mp3"
+    # Cambiar nombre.
+    file_name = yt.author + " - " + yt.title + ".mp3"
+    file_name = clean_filename(file_name)
+    print(file_name)
+    new_name = os.path.join(os.path.dirname(new_file), file_name)
 
     if (actualizar == 1):
-        window.ui.terminal.append("Actualizando. Añadiendo: " + os.path.basename(new_file))
+        window.ui.terminal.append("Actualizando. Añadiendo: " + os.path.basename(new_name))
     else:
-        window.ui.terminal.append("Descargando: " + os.path.basename(new_file))
+        window.ui.terminal.append("Descargando: " + os.path.basename(new_name))
 
     QApplication.processEvents()  # Allow UI to update
 
     # Conversión a audio.
     convert_to_audio(out_file, new_file)
     os.remove(out_file)
+
+    # Renombrar archio (da error si lo hago antes).
+    os.rename(new_file, new_name)
     
     window.ui.terminal.append("Descargado.\n")
 
