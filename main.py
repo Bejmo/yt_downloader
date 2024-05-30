@@ -53,6 +53,7 @@ class MyApp(QWidget):
         self.ui.set_default_root.pressed.connect(self.set_default_root)
         self.ui.cambiar_root_button.pressed.connect(self.modificar_root_button)
         self.ui.imprimir_root_actual.pressed.connect(self.imprimir_root_actual)
+        self.ui.usage_button.pressed.connect(self.imprimir_usage)
 
         # - Inicialización programa - #
         
@@ -110,6 +111,14 @@ class MyApp(QWidget):
         with open(self.ruta_archivo, 'r') as archivo:
             root = archivo.read()
         self.ui.terminal.append("Root actual:\n" + root + "\n")
+
+    def imprimir_usage(self):
+        self.ui.terminal.append(
+            "Usage:\n" + 
+            "Seleccione la opción que desee e introduzca la URL de YouTube y, opcionalmente, el nombre de la carpeta donde quiera guardar los archivos descargados (dentro del ROOT). Finalmente, pulse DESCARGAR para empezar la descarga.\n" +
+            "Si necesita más detalles de las opciones que se ofrecen, deje el ratón encima de estas para ver una descripción más detallada.\n\n" +
+            "NOTA: El ROOT es el directorio donde se descarga todo por defecto. Puede modificarlo introduciendo la dirección del directorio y pulsando el botón CAMBIAR ROOT. También puede asignar la ruta por defecto pulsando el botón SET DEFAULT ROOT. El ROOT por defecto es la carpeta DOWNLOADS que se encuentra en el directorio de este programa.\n"
+        )
 
     def descargar(self):
         url = self.ui.url_line.text()
