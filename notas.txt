@@ -10,4 +10,3 @@ Mejoras:
 - Botón para parar la descarga de una playlist.
 - ERROR -> se descarga en la carpeta principal, no en la de descargas/root (a veces)
     - Maybe es porque no se lee el directorio de descargas cuando se cambia, o algo así.
-- Error -> cambiar nombre cuando se descarga un video solo (visualizer) 

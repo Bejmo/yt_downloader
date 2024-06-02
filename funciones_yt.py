@@ -11,11 +11,12 @@ def clean_filename(filename):
         filename = filename.replace(caracter, "")
 
     # Eliminar "(visualizer)" y similares
-    filename = filename.replace("(Vizualizer)", "")
-    filename = filename.replace("(vizualizer)", "")
-    filename = filename.replace("Vizualizer", "")
-    filename = filename.replace("vizualizer", "")
-    
+    palabras_eliminadas = ["(Vizualizer)","(vizualizer)","Vizualizer","vizualizer","[visualizer]","[Visualizer]",
+                            "videoclip","Videoclip","(videoclip)","(Videoclip)"]
+
+    for palabra in palabras_eliminadas:
+        filename = filename.replace(palabra, "")
+
     return filename
 
 # Convierte a audio un vídeo.
