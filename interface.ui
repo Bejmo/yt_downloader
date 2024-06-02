@@ -6,8 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< Updated upstream
     <width>620</width>
     <height>615</height>
+=======
+    <width>571</width>
+    <height>674</height>
+>>>>>>> Stashed changes
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +29,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
+<<<<<<< Updated upstream
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -63,19 +69,55 @@
          <height>50</height>
         </size>
        </property>
+=======
+      <widget class="QLabel" name="url_tag">
+>>>>>>> Stashed changes
        <property name="text">
         <string>Borrar</string>
        </property>
       </widget>
      </item>
+<<<<<<< Updated upstream
+=======
+     <item>
+      <widget class="QLineEdit" name="url_line"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="carpeta_descarga_tag">
+       <property name="text">
+        <string>Carpeta Descarga</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="carpeta_line"/>
+     </item>
+>>>>>>> Stashed changes
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+<<<<<<< Updated upstream
       <widget class="QPushButton" name="descargar_button">
        <property name="text">
         <string>Descargar</string>
+=======
+      <widget class="QPushButton" name="enviar_button">
+       <property name="text">
+        <string>Enviar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="borrar_button">
+       <property name="text">
+        <string>Borrar</string>
+>>>>>>> Stashed changes
        </property>
       </widget>
      </item>
@@ -100,9 +142,12 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QRadioButton" name="descargar_video_radio_button">
+<<<<<<< Updated upstream
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga el audio del vídeo de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
+=======
+>>>>>>> Stashed changes
          <property name="text">
           <string>Descargar Vídeo</string>
          </property>
@@ -110,9 +155,12 @@
        </item>
        <item>
         <widget class="QRadioButton" name="descargar_playlist_radio_button">
+<<<<<<< Updated upstream
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga la playlist de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
+=======
+>>>>>>> Stashed changes
          <property name="text">
           <string>Descargar Playlist</string>
          </property>
@@ -120,12 +168,15 @@
        </item>
        <item>
         <widget class="QRadioButton" name="actualizar_playlist_radio_button">
+<<<<<<< Updated upstream
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Actualiza la playlist que está en la &amp;quot;Carpeta Descarga&amp;quot; y le añade las canciones que no tiene de la &amp;quot;URL YouTube&amp;quot;.&lt;/p&gt;&lt;p&gt;ATENCIÓN: Solo funciona si la playlist de YouTube está ordenada con los vídeos recientemente añadidos primero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="toolTipDuration">
           <number>-1</number>
          </property>
+=======
+>>>>>>> Stashed changes
          <property name="text">
           <string>Actualizar Playlist</string>
          </property>
@@ -161,11 +212,16 @@
      </property>
     </spacer>
    </item>
+<<<<<<< Updated upstream
    <item alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="label">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;El &amp;quot;ROOT&amp;quot; es el directorio en el que se guardan las descargas.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
+=======
+   <item>
+    <widget class="QPushButton" name="set_default_root">
+>>>>>>> Stashed changes
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;MODIFICAR ROOT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -174,6 +230,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
+<<<<<<< Updated upstream
       <widget class="QPushButton" name="set_default_root">
        <property name="text">
         <string>Set Default Root</string>
@@ -195,6 +252,11 @@
       <widget class="QLineEdit" name="cambiar_root_line"/>
      </item>
      <item>
+=======
+      <widget class="QLineEdit" name="cambiar_root_line"/>
+     </item>
+     <item>
+>>>>>>> Stashed changes
       <widget class="QPushButton" name="cambiar_root_button">
        <property name="text">
         <string>Cambiar Root</string>
@@ -224,6 +286,7 @@
     </widget>
    </item>
    <item>
+<<<<<<< Updated upstream
     <widget class="QPushButton" name="usage_button">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Imprime cómo funciona el programa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -244,6 +307,8 @@
     </widget>
    </item>
    <item>
+=======
+>>>>>>> Stashed changes
     <widget class="QPushButton" name="clear_button">
      <property name="text">
       <string>Clear</string>
