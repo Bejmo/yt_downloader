@@ -17,7 +17,7 @@ def clean_filename(filename):
                             ]
 
     for palabra in palabras_eliminadas:
-        filename = filename.replace(palabra, "")
+        filename = filename.replace(" " + palabra, "")
 
     return filename
 
