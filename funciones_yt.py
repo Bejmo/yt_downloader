@@ -11,8 +11,10 @@ def clean_filename(filename):
         filename = filename.replace(caracter, "")
 
     # Eliminar "(visualizer)" y similares
-    palabras_eliminadas = ["(Vizualizer)","(vizualizer)","Vizualizer","vizualizer","[visualizer]","[Visualizer]",
-                            "videoclip","Videoclip","(videoclip)","(Videoclip)"]
+    palabras_eliminadas = ["(Visualizer)","(visualizer)","Visualizer","visualizer","[visualizer]","[Visualizer]",
+                            "videoclip","Videoclip","(videoclip)","(Videoclip)", "(Official Video)",
+                            "(Official Audio)",
+                            ]
 
     for palabra in palabras_eliminadas:
         filename = filename.replace(palabra, "")
