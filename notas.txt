@@ -1,5 +1,9 @@
-Mejoras:
+MEJORAS:
+- Poner en vez de TRUE el nombre de lo que hace con un enum
+- Mejorar calidad de los vídeos
+- Botón para parar la descarga.
 - Hacer que se vea el estado del programa (ver que se está descargando)
+    - Hacer barra de descarga (porcentaje para playlists)
 - Añadir función de "imprimir" en "funciones_yt" -> imprimir en terminal o en la aplicación dependiendo si se ejecuta directamente o se importa en otro archivo.py
     - Código beta:
         def imprimir(text):
@@ -7,6 +11,4 @@ Mejoras:
                 print(text)
             else:
 
-- Botón para parar la descarga de una playlist.
-- ERROR -> se descarga en la carpeta principal, no en la de descargas/root (a veces)
-    - Maybe es porque no se lee el directorio de descargas cuando se cambia, o algo así.
+ERRORES DETECTADOS:
