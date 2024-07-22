@@ -1,8 +1,6 @@
 # yt_downloader
 Descarga Vídeos/Audio de YouTube
 
-Puedes usar directamente el "main.exe" para más comodidad.
-
 Usage:
 Seleccione la opción que desee e introduzca la URL de YouTube y, opcionalmente, el nombre de la carpeta donde quiera guardar los archivos descargados (dentro del ROOT). Finalmente, pulse DESCARGAR para empezar la descarga.
 Si necesita más detalles de las opciones que se ofrecen, deje el ratón encima de estas para ver una descripción más detallada.
