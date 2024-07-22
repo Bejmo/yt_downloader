@@ -30,15 +30,15 @@ class MyApp(QWidget):
 
     directorio_metadata = os.path.join(directorio_actual, 'metadata')
     ruta_archivo = os.path.join(directorio_metadata, 'ruta.txt')
-    root = '' # Directorio donde se descargan los archivos.
+    root = '' # Directorio donde se descargan los archivos
 
-    # Asigna el valor default al archivo que contiene el root.
-    # Se encapsula en una función para poder usarse más adelante.
+    # Asigna el valor default al archivo que contiene el root
+    # Se encapsula en una función para poder usarse más adelante
     def default_root(self):
-        # Escribir el default path de descargas en el archivo.
+        # Escribir el default path de descargas en el archivo
         with open(self.ruta_archivo, 'w') as archivo:
             self.root = os.path.join(self.directorio_actual, 'downloads')
-            if not os.path.exists(self.root): # Si no existe /downloads, lo crea.
+            if not os.path.exists(self.root): # Si no existe /downloads, lo crea
                 os.makedirs(self.root)
             archivo.write(self.root)
     
@@ -50,12 +50,11 @@ class MyApp(QWidget):
         super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.setWindowTitle('YT MP3') # Cambiar título ventana.
+        self.setWindowTitle('YT MP3') # Cambiar título ventana
         self.resize(800, 500)
 
         # Icono de aplicación
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        icon_path = os.path.join(script_dir, 'icons', 'yt.ico')
+        icon_path = os.path.join(self.directorio_actual, 'icons', 'yt.ico')
         self.setWindowIcon(QIcon(icon_path))
 
         # Asignar funciones a los botones
@@ -70,12 +69,12 @@ class MyApp(QWidget):
 
         # - Inicialización programa - #
         
-        # Crear directorio de metadata si no existe.
+        # Crear directorio de metadata si no existe
         if not os.path.exists(self.directorio_metadata):
             os.makedirs(self.directorio_metadata)
             
             self.default_root()
-        # Si existe, carga el root que está en 'metadata'.
+        # Si existe, carga el root que está en 'metadata'
         else:
             self.leer_root()
 
@@ -96,12 +95,13 @@ class MyApp(QWidget):
     def modificar_root_button(self):
         url = self.ui.cambiar_root_line.text()
         with open(self.ruta_archivo, 'w') as archivo:
-                # Si la entrada no es vacía.
+                # Si la entrada no es vacía
                 if (url):
-                    archivo.write(url) # Se guarda la entrada de la url.
+                    archivo.write(url) # Se guarda la entrada de la url
                     self.ui.terminal.append('Root modificado.\n')
+                    self.ui.terminal.append('Root actual:\n' + url + '\n')
                     self.ui.cambiar_root_line.clear()
-                # Si la entrada es vacía.
+                # Si la entrada es vacía
                 else:
                     self.ui.terminal.append('No se ha podido modificar el root.\n')
 
@@ -137,26 +137,35 @@ class MyApp(QWidget):
 
         url = self.ui.url_line.text()
         directorio = self.ui.carpeta_line.text()
-        # Si no hay directorio indicado, se guarda en el root.
+        # Si no hay directorio indicado, se guarda en el root
         if (directorio == ''): directorio = self.root
         else: directorio = os.path.join(self.root, directorio)
 
-        # Solo borrar el contenido del botón si hay alguna acción indicada.
+        # Solo borrar el contenido del botón si hay alguna acción indicada
         if (self.estado != 0): self.borrar_contenido_button()
         else: # estado == 0
             self.ui.terminal.append('No hay ningúna opción pulsada.\n')
             return
 
-        # Ver el estado en el que se encuentra y actuar en consecuencia.
+        # Ver el estado en el que se encuentra y actuar en consecuencia
         if (self.estado == 1):
-            yt = YouTube(url)
-            descargar_video_youtube(yt, directorio, False, esVideo, self) # Actualizar = True
+            try:
+                yt = YouTube(url)
+                descargar_video_youtube(yt, directorio, False, esVideo, self) # Actualizar = True
+            except:
+                self.ui.terminal.append('La URL no es correcta.\n')
         elif (self.estado == 2):
-            p = Playlist(url)
-            descargar_playlist(p, directorio, esVideo, self)
+            try:
+                p = Playlist(url)
+                descargar_playlist(p, directorio, esVideo, self)
+            except:
+                self.ui.terminal.append('La URL no es correcta.\n')
         elif (self.estado == 3):
-            p = Playlist(url)
-            actualizar_playlist(p, directorio, esVideo, self)
+            try:
+                p = Playlist(url)
+                actualizar_playlist(p, directorio, esVideo, self)
+            except:
+                self.ui.terminal.append('La URL no es correcta.\n')
 
 # - MAIN - #
 

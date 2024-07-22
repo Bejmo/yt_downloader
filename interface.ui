@@ -43,26 +43,6 @@
          </item>
         </layout>
        </item>
-       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-        <widget class="QComboBox" name="MP3">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>50</height>
-          </size>
-         </property>
-         <item>
-          <property name="text">
-           <string>MP3</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MP4</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -74,6 +54,26 @@
         </layout>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QComboBox" name="MP3">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>MP3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>MP4</string>
+        </property>
+       </item>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="borrar_button">
@@ -96,13 +96,6 @@
       <widget class="QPushButton" name="descargar_button">
        <property name="text">
         <string>Descargar</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="stop_descarga_button">
-       <property name="text">
-        <string>Stop Descarga</string>
        </property>
       </widget>
      </item>
@@ -199,22 +192,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QPushButton" name="set_default_root">
-       <property name="text">
-        <string>Set Default Root</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="imprimir_root_actual">
-       <property name="text">
-        <string>Imprimir Root Actual</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <layout class="QHBoxLayout" name="horizontalLayout_6"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -223,12 +201,32 @@
      </item>
      <item>
       <widget class="QPushButton" name="cambiar_root_button">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>23</height>
+        </size>
+       </property>
        <property name="text">
         <string>Cambiar Root</string>
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="set_default_root">
+       <property name="text">
+        <string>Set Default Root</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="imprimir_root_actual">
+     <property name="text">
+      <string>Imprimir Root Actual</string>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer_2">

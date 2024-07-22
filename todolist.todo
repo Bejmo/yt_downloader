@@ -1,0 +1,26 @@
+/*
+Ctrl/Alt + Enter -> Create Toggle Box
+Alt + D -> Toggle Done
+Alt + C -> Toggle Cancelled
+Alt + S -> Toggle Start (a task)
+*/
+MEJORAS:
+    ☐ Poner en vez de TRUE el nombre de lo que hace con un enum
+
+PUBLICACIONES:
+    VERSIONES
+        ✔ 1.0 -> Funcionales básicas @done(24-07-23 01:05)
+            ✔ Descargar audio y vídeos @done(24-07-22 18:22)
+        ☐ 1.1 -> Ver progreso + pequeñas mejoras
+            ☐ Mejorar nombre de las canciones descargadas (hacerlo opcional -> checkBox)
+            ☐ Añadir confirmación en el "Set Default Root"
+            ☐ Parar la descarga (botón)
+            ☐ Barra de descarga para ver el progreso (%)
+                ☐ de una canción
+                ☐ de una playlist
+        ☐ 1.2 -> Mejorar calidad
+            ☐ Seleccionar calidad de la descarga de los audios
+            ☐ Seleccionar calidad de la descarga de los vídeos
+        ☐ 2.0 -> Spotify
+            ☐ Descargar audio Spotify
+            ☐ Descargar playilst Spotify

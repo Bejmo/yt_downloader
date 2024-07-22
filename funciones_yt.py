@@ -3,9 +3,9 @@ import os
 import re
 import subprocess
 
-# Limpiar el nombre del archivo (NO USAR CON EL PATH).
+# Limpiar el nombre del archivo (NO USAR CON EL PATH)
 def clean_filename(filename):
-    # Chars no permitidos por los archivos de Windows.
+    # Chars no permitidos por los archivos de Windows
     caracteres_a_eliminar = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
     for caracter in caracteres_a_eliminar:
         filename = filename.replace(caracter, '')
@@ -21,7 +21,7 @@ def clean_filename(filename):
 
     return filename
 
-# Convierte a audio un vídeo.
+# Convierte a audio un vídeo
 def convert_to_audio(input_file, output_file):
     path_ffmpeg = os.path.join(os.path.dirname(__file__), 'bin', 'ffmpeg')
 
@@ -42,7 +42,7 @@ def convert_to_audio(input_file, output_file):
     except subprocess.CalledProcessError as e:
         print('Conversion failed.')
 
-# Descarga un vídeo de YouTube a través de la URL.
+# Descarga un vídeo de YouTube a través de la URL
 # actualizar indica si es una actualización de playlist (1) o no (0)
 def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     if (esVideo): archivo = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
@@ -75,7 +75,7 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     
     window.ui.terminal.append('Descargado.\n')
 
-# Descarga la playlist de la url indicada.
+# Descarga la playlist de la url indicada
 def descargar_playlist(playlist, destino, esVideo, window):
     counter = 0
     for yt in playlist.videos:
@@ -84,9 +84,9 @@ def descargar_playlist(playlist, destino, esVideo, window):
 
     window.ui.terminal.append('Descarga de la playlist completada.\n' + 'Descargados: ' + str(counter) + ' archivos.\n')
 
-# Actualiza la playlist de la url indicada.
-# Va descargando canciones de la playlist hasta encontrar una que ya existe (o acaba la playlist).
-# Es útil cuando tienes la platlist ordenada con el filtro: fecha de inclusión más reciente.
+# Actualiza la playlist de la url indicada
+# Va descargando canciones de la playlist hasta encontrar una que ya existe (o acaba la playlist)
+# Es útil cuando tienes la platlist ordenada con el filtro: fecha de inclusión más reciente
 def actualizar_playlist(playlist, destino, esVideo, window):
     archivos_en_directorio = os.listdir(destino)
     window.ui.terminal.append('Se está actualizando, espere unos instantes.\n')
@@ -94,14 +94,14 @@ def actualizar_playlist(playlist, destino, esVideo, window):
     counter = 0
     for yt in playlist.videos:
         name_file = yt.title + '.mp3'
-        if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga.
+        if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga
             descargar_video_youtube(yt, destino, True, esVideo, window)
             counter += 1
         else:
             break
     window.ui.terminal.append('Actualización completada.\n' + 'Descargados: ' + str(counter) + ' archivos.\n')
 
-# # Actualiza la playlist COMPLETAMENTE.
+# # Actualiza la playlist COMPLETAMENTE
 # def actualizar_playlist(playlist, destino):
 #     archivos_en_directorio = os.listdir(destino)
 #     texto_imprimir.insert(tk.END, 'Se está actualizando, espere unos instantes.\n')
