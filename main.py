@@ -1,11 +1,16 @@
 import sys
 import os
+import base64
 
 # Interfaz
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import QByteArray, QCoreApplication
 # from PyQt5.QtCore import QThread, pyqtSignal ([*] falta por acabar de implementar)
 from interface import Ui_Form
+
+# Icono
+from icons.icon_data import ICON_DATA
 
 # PyTube
 from pytubefix import YouTube
@@ -53,9 +58,14 @@ class MyApp(QWidget):
         self.setWindowTitle('YT MP3') # Cambiar título ventana
         self.resize(800, 500)
 
+        # Decodifica los datos del icono
+        icon_data = base64.b64decode(ICON_DATA)
+        icon_qbytearray = QByteArray(icon_data)
+        icon_pixmap = QPixmap()
+        icon_pixmap.loadFromData(icon_qbytearray)
+
         # Icono de aplicación
-        icon_path = os.path.join(self.directorio_actual, 'icons', 'yt.ico')
-        self.setWindowIcon(QIcon(icon_path))
+        self.setWindowIcon(QIcon(icon_pixmap))
 
         # Asignar funciones a los botones
         self.ui.descargar_button.pressed.connect(self.descargar)
@@ -166,6 +176,12 @@ class MyApp(QWidget):
                 actualizar_playlist(p, directorio, esVideo, self.directorio_actual, self)
             except:
                 self.ui.terminal.append('La URL no es correcta.\n')
+
+    def closeEvent(self, event):
+        # Asegurar el cierre de la aplicación principal
+        sys.exit(app.exec_())
+        # QCoreApplication.quit()  # Termina el bucle principal de la aplicación
+        # event.accept()  # Aceptar el evento de cierre de la ventana
 
 # - MAIN - #
 

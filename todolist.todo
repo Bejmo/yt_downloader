@@ -6,7 +6,9 @@ Alt + S -> Toggle Start (a task)
 */
 MEJORAS:
     ☐ Poner en vez de TRUE el nombre de lo que hace con un enum
-
+    ☐ Arreglar al cerrar el programa (que no se siga ejecutando) -> (funciona correctamente, pero no sé si está bien hecho)
+    ☐ Poner número de canciones que se quieren descargar de la playlist
+    
 PUBLICACIONES:
     VERSIONES
         ✔ 1.0 -> Funcionales básicas @done(24-07-23 01:05)

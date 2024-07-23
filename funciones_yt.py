@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication
 import os
 import re
 import subprocess
+import sys
 
 # Limpiar el nombre del archivo (NO USAR CON EL PATH)
 def clean_filename(filename):
@@ -21,12 +22,17 @@ def clean_filename(filename):
 
     return filename
 
-# Convierte a audio un vídeo
-def convert_to_audio(input_file, output_file, path_actual):
-    path_ffmpeg = os.path.join(path_actual, 'bin', 'ffmpeg')
+# Obtener el path de ffmpeg
+def get_ffmpeg_path():
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, 'ffmpeg.exe')
+    else:
+        return os.path.join(os.path.dirname(__file__), 'bin', 'ffmpeg.exe')
 
+# Convierte a audio un vídeo
+def convert_to_audio(input_file, output_file):
     ffmpeg_cmd = [
-        path_ffmpeg,
+        get_ffmpeg_path(),
         '-i', input_file,
         '-vn',                      # Eliminar vídeo
         '-acodec', 'libmp3lame',    # Seleccionasr codec
@@ -37,7 +43,7 @@ def convert_to_audio(input_file, output_file, path_actual):
     ]
 
     try:
-        subprocess.run(ffmpeg_cmd, check=True)
+        subprocess.run(ffmpeg_cmd, check=True, creationflags=subprocess.CREATE_NO_WINDOW) # Flag para que no se abra el terminal
         print('Success.')
     except subprocess.CalledProcessError as e:
         print('Conversion failed.')
@@ -54,7 +60,7 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, windo
     else: ext = '.mp3'
 
     # Cambiar nombre.
-    file_name = yt.author + ' - ' + yt.title + ext
+    file_name = yt.title + ext
     file_name = clean_filename(file_name)
     new_name = os.path.join(os.path.dirname(base + ext), file_name)
 
@@ -67,7 +73,7 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, windo
 
     # Conversión a audio (en caso de que sea audio)
     if (not esVideo):
-        convert_to_audio(out_file, new_name, path_actual)
+        convert_to_audio(out_file, new_name)
         os.remove(out_file)
     else:
         # Renombrar vídeo

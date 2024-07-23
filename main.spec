@@ -5,8 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[('bin/ffmpeg.exe', '.')],
-    datas=[],
-    hiddenimports=['pytubefix'],
+    hiddenimports=['pytubefix', 'icons.icon_data.py'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -28,10 +27,11 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='icons/yt.ico'
 )
