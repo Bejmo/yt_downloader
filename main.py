@@ -151,19 +151,19 @@ class MyApp(QWidget):
         if (self.estado == 1):
             try:
                 yt = YouTube(url)
-                descargar_video_youtube(yt, directorio, False, esVideo, self) # Actualizar = True
+                descargar_video_youtube(yt, directorio, False, esVideo, self.directorio_actual, self) # Actualizar = True
             except:
                 self.ui.terminal.append('La URL no es correcta.\n')
         elif (self.estado == 2):
             try:
                 p = Playlist(url)
-                descargar_playlist(p, directorio, esVideo, self)
+                descargar_playlist(p, directorio, esVideo, self.directorio_actual, self)
             except:
                 self.ui.terminal.append('La URL no es correcta.\n')
         elif (self.estado == 3):
             try:
                 p = Playlist(url)
-                actualizar_playlist(p, directorio, esVideo, self)
+                actualizar_playlist(p, directorio, esVideo, self.directorio_actual, self)
             except:
                 self.ui.terminal.append('La URL no es correcta.\n')
 

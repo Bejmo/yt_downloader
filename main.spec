@@ -4,7 +4,7 @@
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[],
+    binaries=[('bin/ffmpeg.exe', '.')],
     datas=[],
     hiddenimports=['pytubefix'],
     hookspath=[],
