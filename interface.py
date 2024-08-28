@@ -80,6 +80,19 @@ class Ui_Form(object):
         self.actualizar_playlist_radio_button.setObjectName("actualizar_playlist_radio_button")
         self.verticalLayout_2.addWidget(self.actualizar_playlist_radio_button)
         self.horizontalLayout_4.addLayout(self.verticalLayout_2)
+        self.download_whole_playlist = QtWidgets.QCheckBox(Form)
+        self.download_whole_playlist.setEnabled(True)
+        self.download_whole_playlist.setAcceptDrops(False)
+        self.download_whole_playlist.setChecked(True)
+        self.download_whole_playlist.setObjectName("download_whole_playlist")
+        self.horizontalLayout_4.addWidget(self.download_whole_playlist)
+        self.numero_descargas = QtWidgets.QSpinBox(Form)
+        self.numero_descargas.setEnabled(False)
+        self.numero_descargas.setWrapping(False)
+        self.numero_descargas.setProperty("showGroupSeparator", False)
+        self.numero_descargas.setMaximum(999)
+        self.numero_descargas.setObjectName("numero_descargas")
+        self.horizontalLayout_4.addWidget(self.numero_descargas, 0, QtCore.Qt.AlignRight)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem1)
         self.verticalLayout_4.addLayout(self.horizontalLayout_4)
@@ -131,6 +144,9 @@ class Ui_Form(object):
         self.clear_button.pressed.connect(self.terminal.clear) # type: ignore
         self.borrar_button.pressed.connect(self.url_line.clear) # type: ignore
         self.borrar_button.pressed.connect(self.carpeta_line.clear) # type: ignore
+        self.descargar_playlist_radio_button.toggled['bool'].connect(self.download_whole_playlist.setVisible) # type: ignore
+        self.descargar_playlist_radio_button.toggled['bool'].connect(self.numero_descargas.setVisible) # type: ignore
+        self.download_whole_playlist.toggled['bool'].connect(self.numero_descargas.setDisabled) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -138,7 +154,8 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_2.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">DESCARGAR</span></p></body></html>"))
         self.url_tag.setText(_translate("Form", "URL YouTube"))
-        self.carpeta_descarga_tag.setText(_translate("Form", "Carpeta Descarga"))
+        self.carpeta_descarga_tag.setText(_translate("Form", "Carpeta de Descarga"))
+        self.carpeta_line.setToolTip(_translate("Form", "<html><head/><body><p>Carpeta de descarga dentro del ROOT.</p></body></html>"))
         self.MP3.setItemText(0, _translate("Form", "MP3"))
         self.MP3.setItemText(1, _translate("Form", "MP4"))
         self.borrar_button.setText(_translate("Form", "BORRAR"))
@@ -150,6 +167,9 @@ class Ui_Form(object):
         self.descargar_playlist_radio_button.setText(_translate("Form", "DESCARGAR PLAYLIST"))
         self.actualizar_playlist_radio_button.setToolTip(_translate("Form", "<html><head/><body><p>Actualiza la playlist que está en la &quot;Carpeta Descarga&quot; y le añade las canciones que no tiene de la &quot;URL YouTube&quot;.</p><p>ATENCIÓN: Solo funciona si la playlist de YouTube está ordenada con los vídeos recientemente añadidos primero.</p></body></html>"))
         self.actualizar_playlist_radio_button.setText(_translate("Form", "ACTUALIZAR PLAYLIST"))
+        self.download_whole_playlist.setToolTip(_translate("Form", "<html><head/><body><p>Descargar toda la playlist.</p></body></html>"))
+        self.download_whole_playlist.setText(_translate("Form", "TODA LA PLAYLIST"))
+        self.numero_descargas.setToolTip(_translate("Form", "<html><head/><body><p>Número de vídeos que se quieren descargar.</p></body></html>"))
         self.mejorar_nombres.setToolTip(_translate("Form", "<html><head/><body><p>Mejora el nombre de los archivos descargados, dándoles el siguiente formato:</p><p>AUTOR + TÍTULO CANCIÓN</p></body></html>"))
         self.mejorar_nombres.setText(_translate("Form", "MEJORAR NOMBRES"))
         self.label.setToolTip(_translate("Form", "<html><head/><body><p>El &quot;ROOT&quot; es el directorio en el que se guardan las descargas.</p></body></html>"))

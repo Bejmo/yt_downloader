@@ -77,6 +77,10 @@ class MyApp(QWidget):
         self.ui.imprimir_root_actual.pressed.connect(self.imprimir_root_actual)
         self.ui.usage_button.pressed.connect(self.imprimir_usage)
 
+        # Configuración de visibilidad de algunos botones
+        self.ui.numero_descargas.setVisible(False)
+        self.ui.download_whole_playlist.setVisible(False)
+
         # - Inicialización programa - #
         
         # Crear directorio de metadata si no existe

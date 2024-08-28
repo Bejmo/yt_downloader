@@ -37,7 +37,7 @@
          <item>
           <widget class="QLabel" name="carpeta_descarga_tag">
            <property name="text">
-            <string>Carpeta Descarga</string>
+            <string>Carpeta de Descarga</string>
            </property>
           </widget>
          </item>
@@ -49,7 +49,11 @@
           <widget class="QLineEdit" name="url_line"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="carpeta_line"/>
+          <widget class="QLineEdit" name="carpeta_line">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Carpeta de descarga dentro del ROOT.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -159,6 +163,44 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="download_whole_playlist">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descargar toda la playlist.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>TODA LA PLAYLIST</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignRight">
+      <widget class="QSpinBox" name="numero_descargas">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Número de vídeos que se quieren descargar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="showGroupSeparator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="maximum">
+        <number>999</number>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
@@ -326,8 +368,8 @@
      <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>501</x>
-     <y>55</y>
+     <x>470</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
@@ -342,8 +384,56 @@
      <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>526</x>
+     <x>470</x>
      <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>descargar_playlist_radio_button</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>download_whole_playlist</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>descargar_playlist_radio_button</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>numero_descargas</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>download_whole_playlist</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>numero_descargas</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>379</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>161</y>
     </hint>
    </hints>
   </connection>

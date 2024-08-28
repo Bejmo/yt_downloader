@@ -119,11 +119,17 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, windo
 # Descarga la playlist de la url indicada (LA PLAYLIST TIENE QUE ESTAR EN "OCULTO" O "PÚBLICO")
 def descargar_playlist(playlist, destino, esVideo, path_actual, window):
     counter = 0
-    for yt in playlist.videos:
-        descargar_video_youtube(yt, destino, False, esVideo, path_actual, window)
-        counter += 1
 
-    # print(playlist.videos)
+    if (window.ui.download_whole_playlist.isChecked()):
+        for yt in playlist.videos:
+            descargar_video_youtube(yt, destino, False, esVideo, path_actual, window)
+            counter += 1
+    else:
+        num_downloads = window.ui.numero_descargas.value()
+        for yt in playlist.videos:
+            descargar_video_youtube(yt, destino, False, esVideo, path_actual, window)
+            counter += 1
+            if (counter == num_downloads): break # Parar cuando tengas el número de videos indicados
     
     if (counter == 0):
         window.ui.terminal.append('Puede que se haya producido un error: no hay elementos en la playlist indicada.\n')
