@@ -1,9 +1,10 @@
 import sys
 import os
 import base64
+from pathlib import Path
 
 # Interfaz
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QByteArray, QCoreApplication
 # from PyQt5.QtCore import QThread, pyqtSignal ([*] falta por acabar de implementar)
@@ -42,9 +43,8 @@ class MyApp(QWidget):
     def default_root(self):
         # Escribir el default path de descargas en el archivo
         with open(self.ruta_archivo, 'w') as archivo:
-            self.root = os.path.join(self.directorio_actual, 'downloads')
-            if not os.path.exists(self.root): # Si no existe /downloads, lo crea
-                os.makedirs(self.root)
+            self.root = str(Path.home() / 'Downloads')
+            print(self.root)
             archivo.write(self.root)
     
     def leer_root(self):
@@ -73,7 +73,7 @@ class MyApp(QWidget):
         self.ui.descargar_playlist_radio_button.toggled.connect(self.descargar_playlist_button)
         self.ui.actualizar_playlist_radio_button.toggled.connect(self.actualizar_playlist_button)
         self.ui.set_default_root.pressed.connect(self.set_default_root)
-        self.ui.cambiar_root_button.pressed.connect(self.modificar_root_button)
+        self.ui.modificar_root_button.pressed.connect(self.modificar_root_button)
         self.ui.imprimir_root_actual.pressed.connect(self.imprimir_root_actual)
         self.ui.usage_button.pressed.connect(self.imprimir_usage)
 
@@ -103,25 +103,29 @@ class MyApp(QWidget):
         # self.ui.terminal.append('Actualizar playlist.\n')
 
     def modificar_root_button(self):
-        url = self.ui.cambiar_root_line.text()
+        url = self.ui.modificar_root_line.text()
         with open(self.ruta_archivo, 'w') as archivo:
                 # Si la entrada no es vacía
                 if (url):
                     archivo.write(url) # Se guarda la entrada de la url
                     self.ui.terminal.append('Root modificado.\n')
                     self.ui.terminal.append('Root actual:\n' + url + '\n')
-                    self.ui.cambiar_root_line.clear()
+                    self.ui.modificar_root_line.clear()
                 # Si la entrada es vacía
                 else:
                     self.ui.terminal.append('No se ha podido modificar el root.\n')
 
         self.leer_root()
-
-
+    
     def set_default_root(self):
-        self.default_root()
-
-        self.ui.terminal.append('Se ha modificado el root al default:\n' + self.root + '\n')
+        # Crear el cuadro de diálogo de confirmación
+        reply = QMessageBox.question(self, 'Confirmación', '¿Estás seguro de que deseas establecer el directorio raíz predeterminado?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.default_root()
+            self.ui.terminal.append('Se ha modificado el root al default:\n' + self.root + '\n')
+        else:
+            self.ui.terminal.append('No se ha modificado el default root\n')
     
     def borrar_contenido_button(self):
         self.ui.url_line.clear()
@@ -158,24 +162,42 @@ class MyApp(QWidget):
             return
 
         # Ver el estado en el que se encuentra y actuar en consecuencia
+        url_correcta = True
         if (self.estado == 1):
             try:
                 yt = YouTube(url)
-                descargar_video_youtube(yt, directorio, False, esVideo, self.directorio_actual, self) # Actualizar = True
             except:
+                url_correcta = False
                 self.ui.terminal.append('La URL no es correcta.\n')
+
+            try:
+                if (url_correcta): descargar_video_youtube(yt, directorio, False, esVideo, self.directorio_actual, self) # Actualizar = True
+            except:
+                self.ui.terminal.append('Error al descargar.\n')
+
         elif (self.estado == 2):
             try:
                 p = Playlist(url)
-                descargar_playlist(p, directorio, esVideo, self.directorio_actual, self)
             except:
+                url_correcta = False
                 self.ui.terminal.append('La URL no es correcta.\n')
+            
+            try:
+                if (url_correcta): descargar_playlist(p, directorio, esVideo, self.directorio_actual, self)
+            except:
+                self.ui.terminal.append('Error al descargar.\n')
+
         elif (self.estado == 3):
             try:
                 p = Playlist(url)
-                actualizar_playlist(p, directorio, esVideo, self.directorio_actual, self)
             except:
+                url_correcta = False
                 self.ui.terminal.append('La URL no es correcta.\n')
+
+            try:
+                if (url_correcta): actualizar_playlist(p, directorio, esVideo, self.directorio_actual, self)
+            except:
+                self.ui.terminal.append('Error al descargar.\n')
 
     def closeEvent(self, event):
         # Asegurar el cierre de la aplicación principal

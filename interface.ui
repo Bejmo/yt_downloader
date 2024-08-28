@@ -84,7 +84,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Borrar</string>
+        <string>BORRAR</string>
        </property>
       </widget>
      </item>
@@ -95,7 +95,14 @@
      <item>
       <widget class="QPushButton" name="descargar_button">
        <property name="text">
-        <string>Descargar</string>
+        <string>DESCARGAR</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stop_descarga_button">
+       <property name="text">
+        <string>STOP DESCARGA</string>
        </property>
       </widget>
      </item>
@@ -124,7 +131,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga el audio del vídeo de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Descargar Vídeo</string>
+          <string>DESCARGAR VÍDEO</string>
          </property>
         </widget>
        </item>
@@ -134,7 +141,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga la playlist de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Descargar Playlist</string>
+          <string>DESCARGAR PLAYLIST</string>
          </property>
         </widget>
        </item>
@@ -147,7 +154,7 @@
           <number>-1</number>
          </property>
          <property name="text">
-          <string>Actualizar Playlist</string>
+          <string>ACTUALIZAR PLAYLIST</string>
          </property>
         </widget>
        </item>
@@ -167,6 +174,19 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QCheckBox" name="mejorar_nombres">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mejora el nombre de los archivos descargados, dándoles el siguiente formato:&lt;/p&gt;&lt;p&gt;AUTOR + TÍTULO CANCIÓN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>MEJORAR NOMBRES</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -197,10 +217,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="cambiar_root_line"/>
+      <widget class="QLineEdit" name="modificar_root_line"/>
      </item>
      <item>
-      <widget class="QPushButton" name="cambiar_root_button">
+      <widget class="QPushButton" name="modificar_root_button">
        <property name="minimumSize">
         <size>
          <width>120</width>
@@ -208,14 +228,14 @@
         </size>
        </property>
        <property name="text">
-        <string>Cambiar Root</string>
+        <string>MODIFICAR ROOT</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="set_default_root">
        <property name="text">
-        <string>Set Default Root</string>
+        <string>SET DEFAULT ROOT</string>
        </property>
       </widget>
      </item>
@@ -224,7 +244,7 @@
    <item>
     <widget class="QPushButton" name="imprimir_root_actual">
      <property name="text">
-      <string>Imprimir Root Actual</string>
+      <string>IMPRIMIR ROOT ACTUAL</string>
      </property>
     </widget>
    </item>
@@ -271,7 +291,7 @@
    <item>
     <widget class="QPushButton" name="clear_button">
      <property name="text">
-      <string>Clear</string>
+      <string>CLEAR</string>
      </property>
     </widget>
    </item>
