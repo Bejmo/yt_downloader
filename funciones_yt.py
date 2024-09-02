@@ -1,4 +1,3 @@
-from PyQt5.QtWidgets import QApplication
 import os
 import re
 import subprocess
@@ -78,7 +77,7 @@ def convert_to_audio(input_file, output_file):
 
 # Descarga un vídeo de YouTube a través de la URL
 # actualizar indica si es una actualización de playlist (1) o no (0)
-def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, window):
+def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     if (esVideo): archivo = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first() # Se descarga con menos calidad
     else: archivo = yt.streams.filter(only_audio=True).first()
     out_file = archivo.download(output_path=destino)
@@ -104,8 +103,6 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, windo
     else:
         window.ui.terminal.append('Descargando: ' + os.path.basename(new_name))
 
-    QApplication.processEvents()  # Allow UI to update
-
     # Conversión a audio (en caso de que sea audio)
     if (not esVideo):
         convert_to_audio(out_file, new_name)
@@ -117,17 +114,17 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, path_actual, windo
     window.ui.terminal.append('Descargado.\n')
 
 # Descarga la playlist de la url indicada (LA PLAYLIST TIENE QUE ESTAR EN "OCULTO" O "PÚBLICO")
-def descargar_playlist(playlist, destino, esVideo, path_actual, window):
+def descargar_playlist(playlist, destino, esVideo, window):
     counter = 0
 
     if (window.ui.download_whole_playlist.isChecked()):
         for yt in playlist.videos:
-            descargar_video_youtube(yt, destino, False, esVideo, path_actual, window)
+            descargar_video_youtube(yt, destino, False, esVideo, window)
             counter += 1
     else:
         num_downloads = window.ui.numero_descargas.value()
         for yt in playlist.videos:
-            descargar_video_youtube(yt, destino, False, esVideo, path_actual, window)
+            descargar_video_youtube(yt, destino, False, esVideo, window)
             counter += 1
             if (counter == num_downloads): break # Parar cuando tengas el número de videos indicados
     
@@ -139,7 +136,7 @@ def descargar_playlist(playlist, destino, esVideo, path_actual, window):
 # Actualiza la playlist de la url indicada
 # Va descargando canciones de la playlist hasta encontrar una que ya existe (o acaba la playlist)
 # Es útil cuando tienes la platlist ordenada con el filtro: fecha de inclusión más reciente
-def actualizar_playlist(playlist, destino, esVideo, path_actual, window):
+def actualizar_playlist(playlist, destino, esVideo, window):
     archivos_en_directorio = os.listdir(destino)
     window.ui.terminal.append('Se está actualizando, espere unos instantes.\n')
 
@@ -147,7 +144,7 @@ def actualizar_playlist(playlist, destino, esVideo, path_actual, window):
     for yt in playlist.videos:
         name_file = yt.title + '.mp3'
         if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga
-            descargar_video_youtube(yt, destino, True, esVideo, path_actual, window)
+            descargar_video_youtube(yt, destino, True, esVideo, window)
             counter += 1
         else:
             break

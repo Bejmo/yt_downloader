@@ -103,13 +103,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="stop_descarga_button">
-       <property name="text">
-        <string>STOP DESCARGA</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -275,7 +268,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="set_default_root">
+      <widget class="QPushButton" name="set_default_root_button">
        <property name="text">
         <string>SET DEFAULT ROOT</string>
        </property>
@@ -284,7 +277,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="imprimir_root_actual">
+    <widget class="QPushButton" name="imprimir_root_actual_button">
      <property name="text">
       <string>IMPRIMIR ROOT ACTUAL</string>
      </property>
