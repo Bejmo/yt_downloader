@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import sys
+from metadata_mp3 import *
 
 # Limpiar el nombre del archivo (NO USAR CON EL PATH)
 def clean_filename(filename):
@@ -44,6 +45,11 @@ def clean_filename(filename):
     filename = filename.replace(' .mp3', '.mp3')
 
     return filename
+
+# Limpia el nombre del autor (mejorar nombre de los vídeos de YouTube Music)
+def clean_author_name(author):
+    author = author.replace(' - Topic', '')
+    return author
 
 # Devuelve si el vídeo indicado proviene de YouTube Music o no
 def video_from_yt_music(yt):
@@ -110,6 +116,10 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     else:
         # Renombrar vídeo
         os.rename(out_file, new_name)
+
+    # Añadir metada al archivo convertido
+    if (video_from_yt_music(yt)):
+        modificar_metadata(new_name, yt.title, clean_author_name(yt.author))
     
     window.ui.terminal.append('Descargado.\n')
 
@@ -140,14 +150,29 @@ def actualizar_playlist(playlist, destino, esVideo, window):
     archivos_en_directorio = os.listdir(destino)
     window.ui.terminal.append('Se está actualizando, espere unos instantes.\n')
 
+    if (window.ui.MP3.currentText() == 'MP4'): ext = '.mp4'
+    else: ext = '.mp3'
+
     counter = 0
     for yt in playlist.videos:
-        name_file = yt.title + '.mp3'
-        if not (name_file in archivos_en_directorio): # Si no está en la playlist, se descarga
+        # if (index_counter < 211): continue
+        # Obtener el nombre que debería de tener el archivo
+        if (window.ui.mejorar_nombres.isChecked()):
+            if (video_from_yt_music(yt)):
+                file_name = yt.author + yt.title + ext
+            else:
+                file_name = yt.title + ext
+            file_name = clean_filename(file_name)
+        else:
+            file_name = yt.title + ext
+
+        # Si no está en la playlist, se descarga
+        if not (file_name in archivos_en_directorio): 
             descargar_video_youtube(yt, destino, True, esVideo, window)
             counter += 1
-        else:
-            break
+            # [v] DESCOMENTAR ESTO AL FINAL
+        # else:
+        #     break
     
     if (counter == 0):
         window.ui.terminal.append('Puede que se haya producido un error: no hay elementos en la playlist indicada.\n')

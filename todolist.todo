@@ -8,6 +8,7 @@ MEJORAS:
     ☐ Poner en vez de TRUE el nombre de lo que hace con un enum
     ☐ Arreglar al cerrar el programa que no haya memory leaks
     ☐ Detector de error al descargar (excepciones)
+    ☐ Quitar print() del convertir a mp3
     
 PUBLICACIONES:
     VERSIONES
@@ -20,6 +21,11 @@ PUBLICACIONES:
             ✔ Añadir para descargar "n" primeros vídeos de una playlist @done(24-08-28 14:49)
                 ✔ Mejorar interfaz @done(24-08-28 14:49)
         ☐ v1.2 -> Mejorar calidad
+            ☐ Actualizar la interfaz en el thread principal (para que haga el desplazamiento en el "terminal")
+            ☐ Interfaz: hacer que se haga más largo la "terminal"
+            ☐ Añadir "print" que indica que la playlist ya está actualizada (counter = 0)
+
+            ☐ Seleccionar calidad de la descarga de los vídeos
             ☐ Parar la descarga (botón)
             ☐ Barra de descarga para ver el progreso (%)
                 ☐ de una canción
@@ -28,7 +34,6 @@ PUBLICACIONES:
             # Descargar a resolución deseada
                 resolucion = "720p"
                 stream = yt.streams.filter(res=resolucion, file_extension='mp4').first()
-            ☐ Seleccionar calidad de la descarga de los vídeos
         ☐ v2.0 -> Spotify
             ☐ Descargar audio Spotify
             ☐ Descargar playilst Spotify
