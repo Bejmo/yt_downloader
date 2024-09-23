@@ -3,6 +3,8 @@ if exist "main.exe" (
 )
 call .\.venv\Scripts\activate
 
+pip install -U pytubefix
+
 pyinstaller main.spec
 
 cd .\dist

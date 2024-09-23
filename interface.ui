@@ -37,7 +37,7 @@
          <item>
           <widget class="QLabel" name="carpeta_descarga_tag">
            <property name="text">
-            <string>Carpeta Descarga</string>
+            <string>Carpeta de Descarga</string>
            </property>
           </widget>
          </item>
@@ -49,7 +49,11 @@
           <widget class="QLineEdit" name="url_line"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="carpeta_line"/>
+          <widget class="QLineEdit" name="carpeta_line">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Carpeta de descarga dentro del ROOT.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -84,7 +88,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Borrar</string>
+        <string>BORRAR</string>
        </property>
       </widget>
      </item>
@@ -95,7 +99,7 @@
      <item>
       <widget class="QPushButton" name="descargar_button">
        <property name="text">
-        <string>Descargar</string>
+        <string>DESCARGAR</string>
        </property>
       </widget>
      </item>
@@ -124,7 +128,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga el audio del vídeo de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Descargar Vídeo</string>
+          <string>DESCARGAR VÍDEO</string>
          </property>
         </widget>
        </item>
@@ -134,7 +138,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga la playlist de la &amp;quot;URL YouTube&amp;quot; y lo guarda en &amp;quot;Carpeta Descarga&amp;quot;, dentro del root.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Descargar Playlist</string>
+          <string>DESCARGAR PLAYLIST</string>
          </property>
         </widget>
        </item>
@@ -147,11 +151,49 @@
           <number>-1</number>
          </property>
          <property name="text">
-          <string>Actualizar Playlist</string>
+          <string>ACTUALIZAR PLAYLIST</string>
          </property>
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="download_whole_playlist">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descargar toda la playlist.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>TODA LA PLAYLIST</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignRight">
+      <widget class="QSpinBox" name="numero_descargas">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Número de vídeos que se quieren descargar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="showGroupSeparator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="maximum">
+        <number>999</number>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
@@ -167,6 +209,19 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QCheckBox" name="mejorar_nombres">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mejora el nombre de los archivos descargados, dándoles el siguiente formato:&lt;/p&gt;&lt;p&gt;AUTOR + TÍTULO CANCIÓN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>MEJORAR NOMBRES</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -197,10 +252,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="cambiar_root_line"/>
+      <widget class="QLineEdit" name="modificar_root_line"/>
      </item>
      <item>
-      <widget class="QPushButton" name="cambiar_root_button">
+      <widget class="QPushButton" name="modificar_root_button">
        <property name="minimumSize">
         <size>
          <width>120</width>
@@ -208,23 +263,23 @@
         </size>
        </property>
        <property name="text">
-        <string>Cambiar Root</string>
+        <string>MODIFICAR ROOT</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="set_default_root">
+      <widget class="QPushButton" name="set_default_root_button">
        <property name="text">
-        <string>Set Default Root</string>
+        <string>SET DEFAULT ROOT</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="imprimir_root_actual">
+    <widget class="QPushButton" name="imprimir_root_actual_button">
      <property name="text">
-      <string>Imprimir Root Actual</string>
+      <string>IMPRIMIR ROOT ACTUAL</string>
      </property>
     </widget>
    </item>
@@ -271,7 +326,7 @@
    <item>
     <widget class="QPushButton" name="clear_button">
      <property name="text">
-      <string>Clear</string>
+      <string>CLEAR</string>
      </property>
     </widget>
    </item>
@@ -306,8 +361,8 @@
      <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>501</x>
-     <y>55</y>
+     <x>470</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
@@ -322,8 +377,56 @@
      <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>526</x>
+     <x>470</x>
      <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>descargar_playlist_radio_button</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>download_whole_playlist</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>descargar_playlist_radio_button</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>numero_descargas</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>download_whole_playlist</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>numero_descargas</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>379</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>161</y>
     </hint>
    </hints>
   </connection>

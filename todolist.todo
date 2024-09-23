@@ -6,23 +6,29 @@ Alt + S -> Toggle Start (a task)
 */
 MEJORAS:
     ☐ Poner en vez de TRUE el nombre de lo que hace con un enum
-    ☐ Arreglar al cerrar el programa (que no se siga ejecutando) -> (funciona correctamente, pero no sé si está bien hecho)
-    ☐ Poner número de canciones que se quieren descargar de la playlist
+    ☐ Arreglar al cerrar el programa que no haya memory leaks
+    ☐ Detector de error al descargar (excepciones)
     
 PUBLICACIONES:
     VERSIONES
-        ✔ 1.0 -> Funcionales básicas @done(24-07-23 01:05)
+        ✔ v1.0 -> Funcionales básicas @done(24-07-23 01:05)
             ✔ Descargar audio y vídeos @done(24-07-22 18:22)
-        ☐ 1.1 -> Ver progreso + pequeñas mejoras
-            ☐ Mejorar nombre de las canciones descargadas (hacerlo opcional -> checkBox)
-            ☐ Añadir confirmación en el "Set Default Root"
+        ✔ v1.1 -> Ver progreso + pequeñas mejoras @done(24-09-01 10:22)
+            ✔ Mejorar nombre de las canciones descargadas (hacerlo opcional -> checkBox) @done(24-08-28 11:49)
+            ✔ Añadir confirmación en el "Set Default Root" @done(24-08-28 12:09)
+            ✔ Cambiar la carpeta de "descargas" por la carpeta de descargas del usuario @done(24-08-28 12:09)
+            ✔ Añadir para descargar "n" primeros vídeos de una playlist @done(24-08-28 14:49)
+                ✔ Mejorar interfaz @done(24-08-28 14:49)
+        ☐ v1.2 -> Mejorar calidad
             ☐ Parar la descarga (botón)
             ☐ Barra de descarga para ver el progreso (%)
                 ☐ de una canción
                 ☐ de una playlist
-        ☐ 1.2 -> Mejorar calidad
             ☐ Seleccionar calidad de la descarga de los audios
+            # Descargar a resolución deseada
+                resolucion = "720p"
+                stream = yt.streams.filter(res=resolucion, file_extension='mp4').first()
             ☐ Seleccionar calidad de la descarga de los vídeos
-        ☐ 2.0 -> Spotify
+        ☐ v2.0 -> Spotify
             ☐ Descargar audio Spotify
             ☐ Descargar playilst Spotify
