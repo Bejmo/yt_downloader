@@ -39,8 +39,8 @@ class DownloadThread(QThread):
     def run(self):
         try:
             self.task_function(*self.args, **self.kwargs)
-        except Exception as e:
-            self.status.emit(f"Error: {str(e)}")
+        # except Exception as e:
+            # self.status.emit(f"Error: {str(e)}")
         finally:
             self.descarga_completada.emit()
 
@@ -216,7 +216,30 @@ class MyApp(QWidget):
             
             try:
                 if (url_correcta):
-                    self.download_thread = DownloadThread(descargar_playlist, p, directorio, esVideo, self)
+                    descargar_playlist(p, directorio, esVideo, self)
+                    # self.download_thread = DownloadThread(descargar_playlist, p, directorio, esVideo, self)
+
+                    # # Asignar slots
+                    # self.download_thread.status.connect(self.update_terminal) # Para notificar errores
+                    # self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
+
+                    # self.download_thread.start()
+                    
+            except:
+                self.ui.terminal.append('Error al descargar.\n')
+
+        # Actualizar playlist
+        elif (self.ui.actualizar_playlist_radio_button.isChecked()):
+            self.borrar_contenido()
+            try:
+                p = Playlist(url)
+            except:
+                url_correcta = False
+                self.ui.terminal.append('La URL no es correcta.\n')
+
+            try:
+                if (url_correcta):
+                    self.download_thread = DownloadThread(actualizar_playlist, p, directorio, esVideo, self)
 
                     # Asignar slots
                     self.download_thread.status.connect(self.update_terminal) # Para notificar errores
@@ -226,20 +249,6 @@ class MyApp(QWidget):
                     
             except:
                 self.ui.terminal.append('Error al descargar.\n')
-
-        # Actualizar playlist
-        # elif (self.ui.actualizar_playlist_radio_button.isChecked()):
-        #     self.borrar_contenido()
-        #     try:
-        #         p = Playlist(url)
-        #     except:
-        #         url_correcta = False
-        #         self.ui.terminal.append('La URL no es correcta.\n')
-
-        #     try:
-        #         if (url_correcta): actualizar_playlist(p, directorio, esVideo, self)
-        #     except:
-        #         self.ui.terminal.append('Error al descargar.\n')
 
         else:
             self.ui.terminal.append('No hay ningúna opción pulsada.\n')
@@ -252,7 +261,7 @@ class MyApp(QWidget):
     
     @pyqtSlot()
     def finalizar_descarga(self):
-        self.download_thread.stop()
+        # self.download_thread.stop()
         self.download_thread = None
 
 # - MAIN - #
