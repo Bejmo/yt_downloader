@@ -9,7 +9,6 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QByteArray, QEventLoop, QThread, pyqtSignal, pyqtSlot
 from interface import Ui_Form
 
-
 # Icono
 from icons.icon_data import ICON_DATA
 
@@ -20,32 +19,32 @@ from pytubefix import Playlist
 from funciones_yt import *
 
 # Clase para ejecutar las funciones en paralelo
-class DownloadThread(QThread):
-    status = pyqtSignal(str) # Indica si ha ocurrido algún error
-    # progreso_actualizado = pyqtSignal(str)
-    descarga_completada = pyqtSignal()
-    descarga_cancelada = pyqtSignal()
+# class DownloadThread(QThread):
+#     status = pyqtSignal(str) # Indica si ha ocurrido algún error
+#     # progreso_actualizado = pyqtSignal(str)
+#     descarga_completada = pyqtSignal()
+#     descarga_cancelada = pyqtSignal()
     
-    def __init__(self, task_function, *args, **kwargs):
-        super().__init__()
-        # Para ejecutar la función en paralelo
-        self.task_function = task_function
-        self.args = args
-        self.kwargs = kwargs
+#     def __init__(self, task_function, *args, **kwargs):
+#         super().__init__()
+#         # Para ejecutar la función en paralelo
+#         self.task_function = task_function
+#         self.args = args
+#         self.kwargs = kwargs
 
-        # self._loop = QEventLoop() # Bucle en el que se ejecuta la tarea, esperando un signal de parada en cualquier momento
-        self._is_running = True
+#         # self._loop = QEventLoop() # Bucle en el que se ejecuta la tarea, esperando un signal de parada en cualquier momento
+#         self._is_running = True
 
-    def run(self):
-        try:
-            self.task_function(*self.args, **self.kwargs)
-        # except Exception as e:
-            # self.status.emit(f"Error: {str(e)}")
-        finally:
-            self.descarga_completada.emit()
+#     def run(self):
+#         try:
+#             self.task_function(*self.args, **self.kwargs)
+#         # except Exception as e:
+#             # self.status.emit(f"Error: {str(e)}")
+#         finally:
+#             self.descarga_completada.emit()
 
-    def stop(self):
-        self._is_running = False
+#     def stop(self):
+#         self._is_running = False
 
 class MyApp(QWidget):
     # Atributos de directorios
@@ -188,31 +187,31 @@ class MyApp(QWidget):
             self.borrar_contenido()
             try:
                 yt = YouTube(url)
-            except:
+            except Exception as e:
                 url_correcta = False
-                self.ui.terminal.append('La URL no es correcta.\n')
+                self.ui.terminal.append(f"Error: {str(e)}")
 
             try:
                 if (url_correcta):
-                    self.download_thread = DownloadThread(descargar_video_youtube, yt, directorio, False, esVideo, self) # Actualizar = False
+                    descargar_video_youtube(yt, directorio, False, esVideo, self)
+                    # self.download_thread = DownloadThread(descargar_video_youtube, yt, directorio, False, esVideo, self) # Actualizar = False
                     
-                    # Asignar slots
-                    self.download_thread.status.connect(self.update_terminal) # Para imprimir en terminal
-                    self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
+                    # # Asignar slots
+                    # self.download_thread.status.connect(self.update_terminal) # Para imprimir en terminal
+                    # self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
                     
-                    self.download_thread.start()
-                    
-            except:
-                self.ui.terminal.append('Error al descargar.\n')
+                    # self.download_thread.start()
+            except Exception as e:
+                self.ui.terminal.append(f"Error: {str(e)}")
 
         # Descargar playlist
         elif (self.ui.descargar_playlist_radio_button.isChecked()):
             self.borrar_contenido()
             try:
                 p = Playlist(url)
-            except:
+            except Exception as e:
                 url_correcta = False
-                self.ui.terminal.append('La URL no es correcta.\n')
+                self.ui.terminal.append(f"Error: {str(e)}")
             
             try:
                 if (url_correcta):
@@ -224,45 +223,44 @@ class MyApp(QWidget):
                     # self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
 
                     # self.download_thread.start()
-                    
-            except:
-                self.ui.terminal.append('Error al descargar.\n')
+            except Exception as e:
+                self.ui.terminal.append(f"Error: {str(e)}")
 
         # Actualizar playlist
         elif (self.ui.actualizar_playlist_radio_button.isChecked()):
             self.borrar_contenido()
             try:
                 p = Playlist(url)
-            except:
+            except Exception as e:
                 url_correcta = False
-                self.ui.terminal.append('La URL no es correcta.\n')
+                self.ui.terminal.append(f"Error: {str(e)}")
 
             try:
                 if (url_correcta):
-                    self.download_thread = DownloadThread(actualizar_playlist, p, directorio, esVideo, self)
+                    actualizar_playlist(p, directorio, esVideo, self)
+                    # self.download_thread = DownloadThread(actualizar_playlist, p, directorio, esVideo, self)
 
-                    # Asignar slots
-                    self.download_thread.status.connect(self.update_terminal) # Para notificar errores
-                    self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
+                    # # Asignar slots
+                    # self.download_thread.status.connect(self.update_terminal) # Para notificar errores
+                    # self.download_thread.descarga_completada.connect(self.finalizar_descarga) # Para finalizar el proceso
 
-                    self.download_thread.start()
-                    
-            except:
-                self.ui.terminal.append('Error al descargar.\n')
+                    # self.download_thread.start()
+            except Exception as e:
+                self.ui.terminal.append(f"Error: {str(e)}")
 
         else:
             self.ui.terminal.append('No hay ningúna opción pulsada.\n')
 
     # - Slots - #
 
-    @pyqtSlot(str)
-    def update_terminal(self, message):
-        self.ui.terminal.append(message)
+    # @pyqtSlot(str)
+    # def update_terminal(self, message):
+    #     self.ui.terminal.append(message)
     
-    @pyqtSlot()
-    def finalizar_descarga(self):
-        # self.download_thread.stop()
-        self.download_thread = None
+    # @pyqtSlot()
+    # def finalizar_descarga(self):
+    #     # self.download_thread.stop()
+    #     self.download_thread = None
 
 # - MAIN - #
 

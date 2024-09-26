@@ -3,6 +3,7 @@ import re
 import subprocess
 import sys
 from metadata_mp3 import *
+from download_thumnails import download_thumnail
 
 # Limpiar el nombre del archivo (NO USAR CON EL PATH)
 def clean_filename(filename):
@@ -120,6 +121,7 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     # Añadir metada al archivo convertido
     if (video_from_yt_music(yt)):
         modificar_metadata(new_name, yt.title, clean_author_name(yt.author))
+        download_thumnail(new_name)
     
     window.ui.terminal.append('Descargado.\n')
 
