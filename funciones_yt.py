@@ -4,6 +4,7 @@ import subprocess
 import sys
 from metadata_mp3 import *
 from download_thumnails import download_thumnail
+from PyQt5.QtWidgets import QApplication
 
 # Limpiar el nombre del archivo (NO USAR CON EL PATH)
 def clean_filename(filename):
@@ -121,25 +122,30 @@ def descargar_video_youtube(yt, destino, actualizar, esVideo, window):
     # Añadir metada al archivo convertido
     if (video_from_yt_music(yt)):
         modificar_metadata(new_name, yt.title, clean_author_name(yt.author))
-        download_thumnail(new_name)
+        download_thumnail(yt, new_name)
     
     window.ui.terminal.append('Descargado.\n')
 
 # Descarga la playlist de la url indicada (LA PLAYLIST TIENE QUE ESTAR EN "OCULTO" O "PÚBLICO")
 def descargar_playlist(playlist, destino, esVideo, window):
+    index = 1 - 1 # Índice que indica a partir de qué canción debe empezar a descargar 
     counter = 0
 
     if (window.ui.download_whole_playlist.isChecked()):
-        for yt in playlist.videos:
+        for i in range(index, len(playlist)):
+            yt = playlist.videos[i]
             descargar_video_youtube(yt, destino, False, esVideo, window)
             counter += 1
+            QApplication.processEvents()
     else:
         num_downloads = window.ui.numero_descargas.value()
-        for yt in playlist.videos:
+        for i in range(index, len(playlist)):
+            yt = playlist.videos[i]
             descargar_video_youtube(yt, destino, False, esVideo, window)
             counter += 1
             if (counter == num_downloads): break # Parar cuando tengas el número de videos indicados
-    
+            QApplication.processEvents()
+
     if (counter == 0):
         window.ui.terminal.append('Puede que se haya producido un error: no hay elementos en la playlist indicada.\n')
     else:
@@ -157,7 +163,6 @@ def actualizar_playlist(playlist, destino, esVideo, window):
 
     counter = 0
     for yt in playlist.videos:
-        # if (index_counter < 211): continue
         # Obtener el nombre que debería de tener el archivo
         if (window.ui.mejorar_nombres.isChecked()):
             if (video_from_yt_music(yt)):
@@ -172,21 +177,11 @@ def actualizar_playlist(playlist, destino, esVideo, window):
         if not (file_name in archivos_en_directorio): 
             descargar_video_youtube(yt, destino, True, esVideo, window)
             counter += 1
-            # [v] DESCOMENTAR ESTO AL FINAL
-        # else:
-        #     break
+            QApplication.processEvents()
+        else:
+            break
     
     if (counter == 0):
         window.ui.terminal.append('Puede que se haya producido un error: no hay elementos en la playlist indicada.\n')
     else:
         window.ui.terminal.append('Actualización completada.\n' + 'Descargados: ' + str(counter) + ' archivos.\n')
-
-# # Actualiza la playlist COMPLETAMENTE
-# def actualizar_playlist(playlist, destino):
-#     archivos_en_directorio = os.listdir(destino)
-#     texto_imprimir.insert(tk.END, 'Se está actualizando, espere unos instantes.\n')
-#     for yt in playlist.videos:
-#         name_file = yt.title + '.mp3'
-#         if not (name_file in archivos_en_directorio):
-#             descargar_audio_youtube(yt, destino, 1, window)
-#     texto_imprimir.insert(tk.END, 'Actualización completada.\n')

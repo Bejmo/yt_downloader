@@ -1,29 +1,16 @@
 import os
 import requests
-from ytmusicapi import YTMusic
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error
+from io import BytesIO
+from PIL import Image
 
-def buscar_miniatura_youtube_music(query):
-    # Inicializa YTMusic
-    ytmusic = YTMusic()
-
-    # Busca canciones en YouTube Music
-    resultados = ytmusic.search(query, filter='songs', limit=1)
-
-    if resultados:
-        cancion = resultados[0]
-        if 'thumbnails' in cancion:
-            # La miniatura se encuentra en la lista 'thumbnails'
-            thumbnail_url = cancion['thumbnails'][-1]['url']  # La más grande es la última
-            return thumbnail_url
-    return None
-
-def descargar_imagen(url, ruta):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(ruta, 'wb') as f:
-            f.write(response.content)
+def eliminar_imagen(image_path):
+    try:
+        os.remove(image_path)
+        print(f'Imagen {image_path} eliminada.')
+    except Exception as e:
+        print(f'Error al eliminar {image_path}: {e}')
 
 def agregar_miniatura_a_mp3(mp3_path, image_path):
     try:
@@ -54,61 +41,54 @@ def agregar_miniatura_a_mp3(mp3_path, image_path):
         print(f'Miniatura añadida a {mp3_path}')
 
     except Exception as e:
-        print(f'Error al agregar la miniatura a {mp3_path}: {e}')
+        print(f'Error al agregar la miniatura a {mp3_path}: {e}')  
 
-def eliminar_imagen(image_path):
+# Descarga la miniatura del "video" en "imagen"
+def descargar_miniatura_y_redimensionar(video, imagen):
+    # DESCARGAR MINIATURA #
+
     try:
-        os.remove(image_path)
-        print(f'Imagen {image_path} eliminada.')
+        # Obtener la URL de la miniatura
+        # miniatura_url = video.thumbnail_url
+        miniatura_url = f"https://img.youtube.com/vi/{video.video_id}/maxresdefault.jpg"
+        
+        # Descargar la imagen
+        response = requests.get(miniatura_url)
+        
     except Exception as e:
-        print(f'Error al eliminar {image_path}: {e}')
+        print(f"Error: {e}")
 
-def obtener_archivos_mp3(carpeta):
-    return [f for f in os.listdir(carpeta) if f.endswith('.mp3')]
+    # REDIMENSIONAR #
+
+    # Calcular el tamaño del recorte (cuadrado)
+    img = Image.open(BytesIO(response.content))
+    width, height = img.size
+    min_dimension = min(width, height)
+    left = (width - min_dimension) / 2
+    top = (height - min_dimension) / 2
+    right = (width + min_dimension) / 2
+    bottom = (height + min_dimension) / 2
+
+    # Recortar la imagen a un cuadrado
+    img_cuadrada = img.crop((left, top, right, bottom))
+
+    # Redimensionar la imagen a 500x500 píxeles
+    img_redimensionada = img_cuadrada.resize((500, 500))
+
+    img_redimensionada.save(imagen)
 
 # FUNCIÓN QUE SE LLAMA DESDE funciones_yt.py
-def download_thumnail(archivo_mp3):
+def download_thumnail(video, archivo_mp3):
     carpeta = os.path.dirname(archivo_mp3)
-    nombre_archivo, _ = os.path.splitext(archivo_mp3)
-    query = nombre_archivo  # Usamos el nombre del archivo .mp3 como búsqueda
-    thumbnail_url = buscar_miniatura_youtube_music(query)
+    nombre_archivo, _ = os.path.splitext(archivo_mp3) # Quita la extensión
+    ruta_imagen = os.path.join(carpeta, f'{nombre_archivo}.jpg')
 
-    if thumbnail_url:
-        # Descargar la miniatura
-        ruta_imagen = os.path.join(carpeta, f'{nombre_archivo}.jpg')
-        descargar_imagen(thumbnail_url, ruta_imagen)
+    # Descargar la miniatura y redimensionar
+    descargar_miniatura_y_redimensionar(video, ruta_imagen)
 
-        # Agregar la miniatura al archivo .mp3
-        ruta_mp3 = os.path.join(carpeta, archivo_mp3)
-        agregar_miniatura_a_mp3(ruta_mp3, ruta_imagen)
+    # Agregar la miniatura al archivo .mp3
+    ruta_mp3 = os.path.join(carpeta, archivo_mp3)
+    agregar_miniatura_a_mp3(ruta_mp3, ruta_imagen)
 
-        # Eliminar la miniatura después de haberla añadido al archivo .mp3
-        eliminar_imagen(ruta_imagen)
-    else:
-        print(f'No se encontró miniatura para {archivo_mp3}')
-
-def main(carpeta):
-    archivos_mp3 = obtener_archivos_mp3(carpeta)
-
-    for archivo_mp3 in archivos_mp3:
-        nombre_archivo, _ = os.path.splitext(archivo_mp3)
-        query = nombre_archivo  # Usamos el nombre del archivo .mp3 como búsqueda
-        thumbnail_url = buscar_miniatura_youtube_music(query)
-
-        if thumbnail_url:
-            # Descargar la miniatura
-            ruta_imagen = os.path.join(carpeta, f'{nombre_archivo}.jpg')
-            descargar_imagen(thumbnail_url, ruta_imagen)
-
-            # Agregar la miniatura al archivo .mp3
-            ruta_mp3 = os.path.join(carpeta, archivo_mp3)
-            agregar_miniatura_a_mp3(ruta_mp3, ruta_imagen)
-
-            # Eliminar la miniatura después de haberla añadido al archivo .mp3
-            eliminar_imagen(ruta_imagen)
-        else:
-            print(f'No se encontró miniatura para {archivo_mp3}')
-
-if __name__ == '__main__':
-    carpeta = input("Introduce la ruta de la carpeta con los archivos .mp3: ")
-    main(carpeta)
+    # Eliminar la miniatura después de haberla añadido al archivo .mp3
+    eliminar_imagen(ruta_imagen)
