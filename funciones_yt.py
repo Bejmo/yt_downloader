@@ -1,5 +1,4 @@
 import os
-import re
 import subprocess
 import sys
 from metadata_mp3 import *

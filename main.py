@@ -9,12 +9,13 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QByteArray, QEventLoop, QThread, pyqtSignal, pyqtSlot
 from interface import Ui_Form
 
-# Icono
+# Icono del programa
 from icons.icon_data import ICON_DATA
 
 # PyTube
 from pytubefix import YouTube
 from pytubefix import Playlist
+
 # Importar funciones de descarga
 from funciones_yt import *
 
